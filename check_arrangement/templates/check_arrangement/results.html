@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Synthèse</title>
+</head>
+<body>
+    <h1>{{ apartment.name }}</h1>
+    <p>Nombre de chambre{{ apartment.bedroom|pluralize }} : {{ apartment.bedroom }}</p>
+    <p>Nombre de salle{{ apartment.bathroom|pluralize }} de bain : {{ apartment.bathroom }}</p>
+    {% for issue in apartment_issues %}
+    <ul>
+        <li>{{ issue.incident_type }} : {{ issue.details }}</li>
+    </ul>
+    {% empty %}
+    <p>Pas d'incident</p>
+    {% endfor %}
+
+
+
+</body>
+</html>

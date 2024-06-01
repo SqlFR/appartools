@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste apparts</title>
+</head>
+<body>
+    <h1>Liste des appartements</h1>
+    {% if list_apartment %}
+        <ul>
+            {% for apartment in list_apartment %}
+                <li>
+                    <a href="{{ apartment.id }}">{{ apartment.name }}</a>
+                    <a href="{% url 'check_arrangement:delete_apartment' apartment.id %}">Supprimer</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <h2><a href="{% url 'check_arrangement:add_apartment' %}">Ajouter un appartement ?</a></h2>
+</body>
+</html>

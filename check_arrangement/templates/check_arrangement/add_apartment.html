@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ajouter un appartement</title>
+</head>
+<body>
+    <h1>Ajouter un nouvel appartement</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Ajouter</button>
+    </form>
+</body>
+</html>
