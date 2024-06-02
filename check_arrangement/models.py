@@ -8,7 +8,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 class Apartment(models.Model):
     DoesNotExist = None
     name = models.CharField(max_length=32, unique=True)
-    slug = models.SlugField(max_length=32, blank=True)
+    # slug = models.SlugField(max_length=32, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     bedroom = models.IntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(12)])
     bathroom = models.IntegerField(default=1, validators=[MinValueValidator(0), MaxValueValidator(12)])
@@ -17,6 +17,11 @@ class Apartment(models.Model):
     class Meta:
         verbose_name = 'Appartement'
         verbose_name_plural = 'Appartements'
+
+    # Met la première lettre du champ 'name' en majuscule
+    def save(self, *args, **kwargs):
+        self.name = self.name.capitalize()
+        super(Apartment, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -56,7 +61,7 @@ class ApartmentIssues(models.Model):
         return self.details
 
 
-@receiver(pre_save, sender=Apartment)
-def create_apartment_slug(sender, instance, **kwargs):
-    if not instance.slug:  # Générer le slug uniquement si slug est vide
-        instance.slug = slugify(instance.name)
+# @receiver(pre_save, sender=Apartment)
+# def create_apartment_slug(sender, instance, **kwargs):
+#     if not instance.slug:  # Générer le slug uniquement si slug est vide
+#         instance.slug = slugify(instance.name)

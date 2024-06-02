@@ -7,15 +7,15 @@ class ApartmentAdmin(admin.ModelAdmin):
         formfield = super().formfield_for_dbfield(db_field, **kwargs)
         if db_field.name == 'name':
             formfield.label = 'Nom de l\'appartement'
-        elif db_field.name == 'slug':
-            formfield.label = 'Slug'
         elif db_field.name == 'bedroom':
             formfield.label = 'Nombre de chambres'
         elif db_field.name == 'bathroom':
             formfield.label = 'Nombre de SDB'
+        elif db_field.name == 'kitchen':
+            formfield.label = 'Nombre de cuisines'
         return formfield
 
-    exclude = ('slug',)  # Exclure le champ slug de l'affichage panel admin
+
 
 
 admin.site.register(Apartment, ApartmentAdmin)
