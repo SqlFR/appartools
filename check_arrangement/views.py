@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Apartment, ApartmentIssues
+from collections import defaultdict
+from .models import Apartment, ApartmentIssues, Rooms
 from .forms import ApartmentForm, IssuesForm
 
 
@@ -14,10 +15,16 @@ def add_apartment(request):
     return render(request, 'check_arrangement/add_apartment.html', {'form': form})
 
 
-def delete_apartment(request, apartment_id):
+def delete_apartment(apartment_id):
     apartment = Apartment.objects.get(id=apartment_id)
     apartment.delete()
     return redirect('check_arrangement:index')
+
+
+def delete_issue(request, apartmentissues_id):
+    issue = get_object_or_404(ApartmentIssues, id=apartmentissues_id)
+    issue.delete()
+    return redirect('check_arrangement:results', apartment_id=issue.apartment.id)
 
 
 def index(request):
@@ -49,9 +56,23 @@ def detail(request, apartment_id):
 def results(request, apartment_id):
     apartment = get_object_or_404(Apartment, id=apartment_id)
     apartment_issues = ApartmentIssues.objects.filter(apartment_id=apartment_id)
+
+    # Initialisation du dictionnaire
+    apartment_issues_dict = defaultdict(lambda: defaultdict(list))
+    # Ajoute incidents présent dans le dict
+    for issue in apartment_issues:
+        room = issue.room
+        incident_type = issue.incident_type
+        details = issue.details
+
+        apartment_issues_dict[room][incident_type].append((details, issue.id))
+    # Conversion en dict normal
+    apartment_issues_dict = {room: dict(issues) for room, issues in apartment_issues_dict.items()}
+
     context = {
         'apartment': apartment,
-        'apartment_issues': apartment_issues
+        'apartment_issues': apartment_issues,
+        'apartment_issues_dict': apartment_issues_dict,
     }
     return render(request, 'check_arrangement/results.html', context)
 

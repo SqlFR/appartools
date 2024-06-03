@@ -6,17 +6,28 @@
 </head>
 <body>
     <h1>{{ apartment.name }}</h1>
+    <span>Créé le {{ apartment.created_at|date:'d F Y à H:i' }}</span>
     <p>Nombre de chambre{{ apartment.bedroom|pluralize }} : {{ apartment.bedroom }}</p>
     <p>Nombre de salle{{ apartment.bathroom|pluralize }} de bain : {{ apartment.bathroom }}</p>
-    {% for issue in apartment_issues %}
-    <ul>
-        <li>{{ issue.incident_type }} : {{ issue.details }}</li>
-    </ul>
-    {% empty %}
-    <p>Pas d'incident</p>
-    {% endfor %}
 
-
-
+{% if apartment_issues_dict %}
+        {% for room, issues in apartment_issues_dict.items %}
+            <h3>{{ room }}</h3>
+            <ul>
+                {% for incident_type, details_list in issues.items %}
+                    <li>{{ incident_type }}
+                        <ul>
+                            {% for detail, issue_id in details_list %}
+                            <li>{{ detail }}</li>
+                            <a href="{% url 'check_arrangement:delete_issue' issue_id %}">Supprimer</a>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    {% else %}
+        <p>Aucun problème signalé pour cet appartement.</p>
+    {% endif %}
 </body>
 </html>

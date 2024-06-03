@@ -23,6 +23,10 @@ class IssuesForm(forms.ModelForm):
         model = ApartmentIssues
         fields = ['room', 'incident_type', 'details']
 
+    def clean_details(self):
+        details = self.cleaned_data['details']
+        return details.capitalize()
+
     # Récupère l'instance d'appartement
     def __init__(self, *args, **kwargs):
         apartment = kwargs.pop('apartment', None)

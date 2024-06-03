@@ -28,7 +28,7 @@ class Apartment(models.Model):
 
 
 class Rooms(models.Model):
-    name = models.CharField(max_length=21)
+    name = models.CharField(max_length=22)
 
     class Meta:
         verbose_name = 'Pièce'
@@ -38,7 +38,7 @@ class Rooms(models.Model):
 
 
 class IncidentType(models.Model):
-    name = models.CharField(max_length=21, unique=True)
+    name = models.CharField(max_length=22, unique=True)
 
     class Meta:
         verbose_name = 'Nature d\'incident'
