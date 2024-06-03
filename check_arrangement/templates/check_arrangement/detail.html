@@ -6,6 +6,10 @@
     <title>Détails appartement</title>
 </head>
 <body>
+<p>
+    <a href="{% url 'index' %}">Liste des outils</a> >
+    <a href="{% url 'check_arrangement:index' %}">Liste des apparts</a>
+</p>
     <h1>{{ apartment.name }}</h1>
     <ul>
         <li>Nombre de chambres : {{ apartment.bedroom }}</li>

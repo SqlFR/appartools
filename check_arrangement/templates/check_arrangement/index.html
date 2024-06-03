@@ -5,13 +5,17 @@
     <title>Liste apparts</title>
 </head>
 <body>
+<a href="{% url 'index' %}">Liste des outils</a>
     <h1>Liste des appartements</h1>
     {% if list_apartment %}
         <ul>
             {% for apartment in list_apartment %}
                 <li>
-                    <a href="{{ apartment.id }}">{{ apartment.name }}</a>
-                    <a href="{% url 'check_arrangement:delete_apartment' apartment.id %}">Supprimer</a>
+                    <p>
+                        <a href="{{ apartment.id }}">{{ apartment.name }}</a>
+                        <span>{{ apartment.bedroom }} chambre{{ apartment.bedroom|pluralize }} </span>
+                        <a href="{% url 'check_arrangement:delete_apartment' apartment.id %}">Supprimer</a>
+                    </p>
                 </li>
             {% endfor %}
         </ul>
