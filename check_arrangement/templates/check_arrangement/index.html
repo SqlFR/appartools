@@ -5,11 +5,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Liste apparts</title>
-    <link rel="stylesheet" href="{% static 'check_arrangement/style/style.css' %}">
+    <link rel="stylesheet" href="{% static 'check_arrangement/style/style_output.css' %}">
 </head>
 <body>
 <a href="{% url 'index' %}">Liste des outils</a>
-    <h1>Liste des appartements</h1>
+    <h1 class="text-red-600">Liste des appartements</h1>
     {% if list_apartment %}
         <ul>
             {% for apartment in list_apartment %}
