@@ -2,7 +2,7 @@
 module.exports = {
   content: [
       "./check_arrangement/**/*.{html,js}",
-      "./components/**/*.{html, js"
+      "./components/**/*.{html, js}"
   ],
   theme: {
     extend: {},
