@@ -1,2 +1,12 @@
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.button-access {
+    @apply block w-auto bg-blue-600 text-white font-medium py-1 m-auto self-center mt-3 px-3 rounded-md;
+}
+
+.span-description {
+    @apply font-medium mt-3;
+}
