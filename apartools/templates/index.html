@@ -1,26 +1,33 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full">
 <head>
     <meta charset="UTF-8">
-    <title>Tools</title>
+    <title>Apartools</title>
+    <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="{% static 'apartools/style/style_output.css' %}">
 </head>
-<body>
-    <h1 class="text-red-600">Tools</h1>
-    {% if app_names %}
-        <ul>
-            {% for app_name in app_names %}
-                <li>
-                    {% for app_url in app_urls %}
-                        <a href="{{ app_url }}">
-                    {% endfor %}
-                            {{ app_name }}
-                        </a>
+<body class="h-full bg-gray-50 text-gray-800">
+    <div class="max-w-xl mx-auto my-4 p-4">
+        <h1 class="text-2xl font-medium text-center">Les Apps</h1>
+        <div class="my-4">
+            {% if app_name %}
+            <ul>
+                <li class="flex flex-col shadow p-4">
+                    <p class="text-xl font-semibold mb-2">{{ app_name }}</p>
+                    <div class="pl-3">
+                        <span class="span-description">Description : </span>
+                        <p>{{ app_description }}</p>
+                        <span class="span-description">A venir : </span>
+                        <p>{{ app_incoming }}</p>
+                    </div>
+
+                    <a href="{{ app_url }}" class="button-access">Ouvrir</a>
                 </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+            </ul>
+            {% endif %}
+        </div>
+    </div>
 </body>
 </html>
