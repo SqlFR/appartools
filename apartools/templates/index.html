@@ -15,12 +15,16 @@
             {% if app_name %}
             <ul>
                 <li class="flex flex-col shadow p-4">
-                    <p>{{ app_name }}</p>
+                    <p class="text-xl font-medium mb-4">{{ app_name }}</p>
                     <div class="pl-3">
-                        <span class="span-description">Description : </span>
-                        <p>{{ app_description }}</p>
-                        <span class="span-description">A venir : </span>
-                        <p>{{ app_incoming }}</p>
+                        <div class="mb-2">
+                            <span class="span-description">Description : </span>
+                            <p class="text-gray-600">{{ app_description }}</p>
+                        </div>
+                        <div class="mb-2">
+                            <span class="span-description">A venir : </span>
+                            <p class="text-gray-600">{{ app_incoming }}</p>
+                        </div>
                     </div>
 
                     <a href="{{ app_url }}" class="button-access">Ouvrir</a>
