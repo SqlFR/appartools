@@ -1,3 +1,62 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.breadcrumb {
+    @apply text-gray-400 text-sm underline pl-1.5
+}
+
+.btn-access-table {
+    @apply bg-blue-600 text-white font-medium px-4 py-1 rounded-md shadow-xl;
+}
+
+.btn-access-table:hover {
+    @apply bg-blue-700
+}
+
+.btn-add {
+    @apply bg-green-600 text-white font-medium px-4 py-1 rounded-md shadow-xl
+}
+
+.btn-add:hover {
+    @apply bg-green-700
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 25% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 70%;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}

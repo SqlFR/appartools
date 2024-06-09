@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from collections import defaultdict
-from .models import Apartment, ApartmentIssues, Rooms
+from .models import Apartment, ApartmentIssues
 from .forms import ApartmentForm, IssuesForm
+from django.apps import apps
 
 
 def add_apartment(request):
@@ -15,7 +16,7 @@ def add_apartment(request):
     return render(request, 'check_arrangement/add_apartment.html', {'form': form})
 
 
-def delete_apartment(apartment_id):
+def delete_apartment(request, apartment_id):
     apartment = Apartment.objects.get(id=apartment_id)
     apartment.delete()
     return redirect('check_arrangement:index')
@@ -29,8 +30,10 @@ def delete_issue(request, apartmentissues_id):
 
 def index(request):
     list_apartment = Apartment.objects.filter().order_by('name')
+    app = apps.get_app_config('check_arrangement')
     context = {
         'list_apartment': list_apartment,
+        'app': app
     }
     return render(request, "check_arrangement/index.html", context)
 
