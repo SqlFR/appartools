@@ -32,7 +32,7 @@
                         <td style="padding: 6px 0"><span>{{ apartment.bathroom }}</span></td>
                         <td style="padding: 6px 0">
                             <button href="{% url 'check_arrangement:delete_apartment' apartment.id %}"
-                               class="delete-btn mr-2" title="Supprimer" data-id="{{ apartment.id }}">❌</button>
+                               class="btn-delete mr-2" title="Supprimer" data-id="{{ apartment.id }}">❌</button>
                             <a title="Editer (à venir)" disabled style="cursor: pointer">✏️</a>
                         </td>
                     </tr>
@@ -40,9 +40,18 @@
                 </tbody>
             </table>
         {% endif %}
+        <div id="addModal" class="modal" style="display: none;">
+            <div class="modal-content max-w-xl">
+                <span class="close-add">&times;</span>
+
+                <div class="flex justify-around mt-4">
+                    <button id="confirmAdd" class="text-red-600 font-medium w-1/2">Ajouter</button>
+                </div>
+            </div>
+        </div>
         <div id="deleteModal" class="modal" style="display: none;">
             <div class="modal-content max-w-xl">
-                <span class="close">&times;</span>
+                <span class="close-delete">&times;</span>
                 <p class="pt-4 sm:pt-0">Êtes-vous sûr de vouloir supprimer cet appartement ?</p>
                 <div class="flex justify-around mt-4">
                     <button id="confirmDelete" class="text-red-600 font-medium w-1/2">Oui</button>
@@ -50,7 +59,8 @@
                 </div>
             </div>
         </div>
-        <a href="{% url 'check_arrangement:add_apartment' %}" class="btn-add mt-8">Ajouter un appartement ?</a>
+        <button id="btn-add" class="btn-add mt-20" title="Ajouter">Ajouter un appartement ?</button>
+        <!-- {% url 'check_arrangement:add_apartment' %} -->
     </div>
 
 </body>
