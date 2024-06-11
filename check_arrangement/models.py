@@ -1,17 +1,17 @@
 from django.db import models
-from django.utils.text import slugify
-from django.db.models.signals import pre_save
-from django.dispatch import receiver
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Apartment(models.Model):
     DoesNotExist = None
-    name = models.CharField(max_length=32, unique=True)
-    # slug = models.SlugField(max_length=32, blank=True)
+    name = models.CharField(max_length=32, unique=True, error_messages={
+        'unique': 'Un appartement portant ce nom éxiste déjà.'
+    })
     created_at = models.DateTimeField(auto_now_add=True)
-    bedroom = models.IntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(12)])
-    bathroom = models.IntegerField(default=1, validators=[MinValueValidator(0), MaxValueValidator(12)])
+    bedroom = models.IntegerField(default=1,
+                                  validators=[MinValueValidator(1), MaxValueValidator(12)])
+    bathroom = models.IntegerField(default=1,
+                                   validators=[MinValueValidator(0), MaxValueValidator(6)])
     kitchen = models.IntegerField(default=1)
 
     class Meta:

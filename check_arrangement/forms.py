@@ -11,6 +11,11 @@ class ApartmentForm(forms.ModelForm):
             'bedroom': 'Nombre de chambres',
             'bathroom': 'Nombre de SDB'
         }
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control-input'}),
+            'bedroom': forms.NumberInput(attrs={'class': 'form-control-input number-input no-arrows'}),
+            'bathroom': forms.NumberInput(attrs={'class': 'form-control-input number-input no-arrows'}),
+        }
 
     # Met la première lettre du champ 'name' en majuscule
     def clean_name(self):

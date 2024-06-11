@@ -5,3 +5,4 @@ apartools/settings.py
 package.json
 package-lock.json
 db.sqlite3
+todo.txt

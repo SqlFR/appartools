@@ -588,6 +588,10 @@ video {
   margin-right: 0.5rem;
 }
 
+.mt-16 {
+  margin-top: 4rem;
+}
+
 .mt-20 {
   margin-top: 5rem;
 }
@@ -632,12 +636,20 @@ video {
   flex-direction: column;
 }
 
+.items-start {
+  align-items: flex-start;
+}
+
 .items-center {
   align-items: center;
 }
 
 .justify-around {
   justify-content: space-around;
+}
+
+.self-center {
+  align-self: center;
 }
 
 .bg-gray-50 {
@@ -792,6 +804,48 @@ video {
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+/* add_apartment.html */
+
+/* Tailwind CSS Custom Styles Retire les fleches sur les inputs */
+
+.no-arrows::-webkit-outer-spin-button,
+.no-arrows::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.no-arrows {
+  -moz-appearance: textfield;
+}
+
+.form-control-input {
+  width: 33.333333%;
+  --tw-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+  --tw-shadow-colored: inset 0 2px 4px 0 var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.form-control-input:focus {
+  --tw-border-opacity: 1;
+  border-color: rgb(8 145 178 / var(--tw-border-opacity));
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.number-input {
+  width: 3rem;
+}
+
+.label-input {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+  display: flex;
+}
+
+.label-input > label {
+  width: 11rem;
 }
 
 @media (min-width: 640px) {
