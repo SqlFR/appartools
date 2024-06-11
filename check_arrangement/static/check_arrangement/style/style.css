@@ -60,3 +60,35 @@
     text-decoration: none;
     cursor: pointer;
 }
+
+/* add_apartment.html */
+
+/* Tailwind CSS Custom Styles Retire les fleches sur les inputs */
+.no-arrows::-webkit-outer-spin-button,
+.no-arrows::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.no-arrows {
+    -moz-appearance: textfield;
+}
+
+.form-control-input {
+    @apply shadow-inner w-1/3
+}
+
+.form-control-input:focus {
+    @apply border-cyan-600 outline-none
+}
+
+.number-input {
+    @apply w-12
+}
+
+.label-input {
+    @apply flex my-1
+}
+
+.label-input > label {
+    @apply w-44
+}
