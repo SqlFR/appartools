@@ -3,15 +3,28 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Apartment(models.Model):
+
+    class CustomMinValueValidator(MinValueValidator):
+        def __init__(self, limit_value, message=None):
+            super().__init__(limit_value, message=message or f'La valeur doit être au moins {limit_value}.')
+
+    class CustomMaxValueValidator(MaxValueValidator):
+        def __init__(self, limit_value, message=None):
+            super().__init__(limit_value, message=message or f'La valeur ne peut pas dépasser {limit_value}.')
+
     DoesNotExist = None
     name = models.CharField(max_length=32, unique=True, error_messages={
         'unique': 'Un appartement portant ce nom éxiste déjà.'
     })
     created_at = models.DateTimeField(auto_now_add=True)
     bedroom = models.IntegerField(default=1,
-                                  validators=[MinValueValidator(1), MaxValueValidator(12)])
+                                  validators=[
+                                      CustomMinValueValidator(1, f'Au moins 1 chambre ! On dort où sinon ?'), CustomMaxValueValidator(12)
+                                  ])
     bathroom = models.IntegerField(default=1,
-                                   validators=[MinValueValidator(0), MaxValueValidator(6)])
+                                   validators=[
+                                       CustomMinValueValidator(0), CustomMaxValueValidator(6)
+                                   ])
     kitchen = models.IntegerField(default=1)
 
     class Meta:

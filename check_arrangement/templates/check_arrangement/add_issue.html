@@ -1,0 +1,36 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Détails appartement</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="{% static 'check_arrangement/style/style_output.css' %}">
+    <script src="{% static 'check_arrangement/js/add_class_label_form.js' %}" defer></script>
+</head>
+<body class="h-full bg-gray-50 text-gray-800">
+    <a href="{% url 'index' %}" class="breadcrumb">Liste des outils</a>
+    <a href="{% url 'check_arrangement:index' %}" class="breadcrumb">Liste des appartements</a>
+    <div class="max-w-xl mx-auto p-4 flex flex-col items-center">
+
+        <p class="text-2xl font-semibold mb-4 text-center self-center">{{ apartment.name }}</p>
+        <div class="flex justify-center gap-10 mb-6">
+            <ul class="flex flex flex-col">
+                <li class="py-1 px-2">Nombre de chambre{{ apartment.bedroom|pluralize }} : {{ apartment.bedroom }}</li>
+                <li class="py-1 px-2">Nombre de SDB : {{ apartment.bathroom }}</li>
+            </ul>
+            <a class="my-3 self-center btn-access-table" href="{% url 'check_arrangement:results' apartment.id %}">Fiche appart</a>
+        </div>
+
+        <form class='form-add' method="POST">
+            {% csrf_token %}
+            <h2 class="mb-6 self-center">-----  Renseigne un incident  -----</h2>
+            {{ form }}
+            <button class="btn-add mt-16 self-center" type="submit" title="Ajouter incident">Ajouter incident</button>
+        </form>
+    </div>
+
+</body>
+</html>
+

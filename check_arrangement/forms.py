@@ -8,7 +8,7 @@ class ApartmentForm(forms.ModelForm):
         fields = ['name', 'bedroom', 'bathroom']
         labels = {
             'name': "Nom de l'appartement",
-            'bedroom': 'Nombre de chambres',
+            'bedroom': 'Nombre de chambre',
             'bathroom': 'Nombre de SDB'
         }
         widgets = {
@@ -27,6 +27,9 @@ class IssuesForm(forms.ModelForm):
     class Meta:
         model = ApartmentIssues
         fields = ['room', 'incident_type', 'details']
+        widgets = {
+            'details': forms.Textarea(attrs={'class': 'form-control-input', 'rows': '2'})
+        }
 
     def clean_details(self):
         details = self.cleaned_data['details']
@@ -43,10 +46,12 @@ class IssuesForm(forms.ModelForm):
             rooms += [(f'Chambre {i}', f'Chambre {i}') for i in range(1, apartment.bedroom + 1)]
             rooms += [(f'Salle de bain {i}', f'Salle de bain {i}') for i in range(1, apartment.bathroom + 1)]
             rooms += [('Buanderie', 'Buanderie')]
-            # Définit dynamiquement le champ 'roo' en ChoiceField
+            # Définit dynamiquement le champ 'room' en ChoiceField
             self.fields['room'] = forms.ChoiceField(choices=rooms, label='Pièce')
 
     incident_type = forms.ModelChoiceField(queryset=IncidentType.objects.all(), label="Type d'incident")
-    details = forms.CharField(widget=forms.TextInput(attrs={'size': '40', 'max_length': '100'}), label='Détails')
+
+
+
 
 

@@ -38,7 +38,7 @@ def index(request):
     return render(request, "check_arrangement/index.html", context)
 
 
-def detail(request, apartment_id):
+def add_issue(request, apartment_id):
     apartment = get_object_or_404(Apartment, id=apartment_id)
     if request.method == 'POST':
         form = IssuesForm(request.POST, apartment=apartment)
@@ -53,7 +53,7 @@ def detail(request, apartment_id):
         'form': form
     }
 
-    return render(request, 'check_arrangement/detail.html', context)
+    return render(request, 'check_arrangement/add_issue.html', context)
 
 
 def results(request, apartment_id):
