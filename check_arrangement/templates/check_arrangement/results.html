@@ -12,9 +12,10 @@
     <p>
         <a href="{% url 'index' %}">Liste des outils</a> >
         <a href="{% url 'check_arrangement:index' %}">Liste des apparts</a> >
-        <a href="{% url 'check_arrangement:detail' apartment.id %}">Fiche appart</a>
+        <a href="{% url 'check_arrangement:add_issue' apartment.id %}">Fiche appart</a>
     </p>
     <h1>{{ apartment.name }}</h1>
+    <a href="{% url 'check_arrangement:add_issue' apartment.id %}">Ajouter incident</a>
     <span>Créé le {{ apartment.created_at|date:'d F Y à H:i' }}</span>
     <p>Nombre de chambre{{ apartment.bedroom|pluralize }} : {{ apartment.bedroom }}</p>
     <p>Nombre de salle{{ apartment.bathroom|pluralize }} de bain : {{ apartment.bathroom }}</p>

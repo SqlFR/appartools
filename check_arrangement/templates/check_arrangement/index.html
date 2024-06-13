@@ -27,13 +27,13 @@
                 <tbody>
                     {% for apartment in list_apartment %}
                     <tr>
-                        <td style="padding: 6px 0"><a href="{{ apartment.id }}" class="btn-access-table">{{ apartment.name }}</a></td>
-                        <td style="padding: 6px 0"><span>{{ apartment.bedroom }}</span></td>
-                        <td style="padding: 6px 0"><span>{{ apartment.bathroom }}</span></td>
-                        <td style="padding: 6px 0">
+                        <td class="py-2"><a href="{% url 'check_arrangement:results' apartment.id %}" class="btn-access-table">{{ apartment.name }}</a></td>
+                        <td class="py-2"><span>{{ apartment.bedroom }}</span></td>
+                        <td class="py-2"><span>{{ apartment.bathroom }}</span></td>
+                        <td class="py-2 flex gap-3">
+                            <a href="{% url 'check_arrangement:add_issue' apartment.id %}" title="Ajouter incident" style="cursor: pointer">🔨</a>
                             <button href="{% url 'check_arrangement:delete_apartment' apartment.id %}"
-                               class="btn-delete mr-2" title="Supprimer" data-id="{{ apartment.id }}">❌</button>
-                            <a title="Editer (à venir)" disabled style="cursor: pointer">✏️</a>
+                               class="btn-delete" title="Supprimer" data-id="{{ apartment.id }}">❌</button>
                         </td>
                     </tr>
                     {% endfor %}
