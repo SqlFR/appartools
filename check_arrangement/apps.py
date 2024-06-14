@@ -8,3 +8,6 @@ class CheckArrangementConfig(AppConfig):
     description = "Renseigner les incidents sur l'appart : meubles manquants, défauts de construction ou autres."
     incoming = "Permettra le suivit de l'avancement général de l'appart."
     url = 'check-apartment/'
+
+    def ready(self):
+        import check_arrangement.signals
