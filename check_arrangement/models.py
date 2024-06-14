@@ -11,6 +11,7 @@ class CustomMaxValueValidator(MaxValueValidator):
     def __init__(self, limit_value, message=None):
         super().__init__(limit_value, message=message or f'La valeur ne peut pas dépasser {limit_value}.')
 
+
 class Apartment(models.Model):
 
     DoesNotExist = None
@@ -52,7 +53,7 @@ class Rooms(models.Model):
 
 
 class IncidentType(models.Model):
-    name = models.CharField(max_length=22)
+    name = models.CharField(max_length=30, unique=True)
 
     class Meta:
         verbose_name = 'Nature d\'incident'
