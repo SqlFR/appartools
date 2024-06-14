@@ -2,15 +2,16 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
+class CustomMinValueValidator(MinValueValidator):
+    def __init__(self, limit_value, message=None):
+        super().__init__(limit_value, message=message or f'La valeur doit être au moins de {limit_value}.')
+
+
+class CustomMaxValueValidator(MaxValueValidator):
+    def __init__(self, limit_value, message=None):
+        super().__init__(limit_value, message=message or f'La valeur ne peut pas dépasser {limit_value}.')
+
 class Apartment(models.Model):
-
-    class CustomMinValueValidator(MinValueValidator):
-        def __init__(self, limit_value, message=None):
-            super().__init__(limit_value, message=message or f'La valeur doit être au moins {limit_value}.')
-
-    class CustomMaxValueValidator(MaxValueValidator):
-        def __init__(self, limit_value, message=None):
-            super().__init__(limit_value, message=message or f'La valeur ne peut pas dépasser {limit_value}.')
 
     DoesNotExist = None
     name = models.CharField(max_length=32, unique=True, error_messages={
