@@ -16,8 +16,6 @@ class ApartmentAdmin(admin.ModelAdmin):
         return formfield
 
 
-
-
 admin.site.register(Apartment, ApartmentAdmin)
 
 
