@@ -4,5 +4,5 @@ apartools/settings.py
 **/__pycache__/
 package.json
 package-lock.json
-db.sqlite3
 todo.txt
+db.sqlite3

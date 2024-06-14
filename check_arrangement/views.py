@@ -45,7 +45,7 @@ def add_issue(request, apartment_id):
         if form.is_valid():
             form.instance.apartment = apartment
             form.save()
-            return redirect('check_arrangement:detail', apartment_id=apartment.id)
+            return redirect('check_arrangement:add_issue', apartment_id=apartment.id)
     else:
         form = IssuesForm(apartment=apartment)
     context = {

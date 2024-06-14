@@ -4,40 +4,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Synthèse</title>
+    <title>{{ apartment.name }}</title>
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="{% static 'check_arrangement/style/style_output.css' %}">
 </head>
-<body>
-    <p>
-        <a href="{% url 'index' %}">Liste des outils</a> >
-        <a href="{% url 'check_arrangement:index' %}">Liste des apparts</a> >
-        <a href="{% url 'check_arrangement:add_issue' apartment.id %}">Fiche appart</a>
-    </p>
-    <h1>{{ apartment.name }}</h1>
-    <a href="{% url 'check_arrangement:add_issue' apartment.id %}">Ajouter incident</a>
-    <span>Créé le {{ apartment.created_at|date:'d F Y à H:i' }}</span>
-    <p>Nombre de chambre{{ apartment.bedroom|pluralize }} : {{ apartment.bedroom }}</p>
-    <p>Nombre de salle{{ apartment.bathroom|pluralize }} de bain : {{ apartment.bathroom }}</p>
-
-{% if apartment_issues_dict %}
-        {% for room, issues in apartment_issues_dict.items %}
-            <h3>{{ room }}</h3>
-            <ul>
+<body class="h-full bg-gray-50 text-gray-800">
+    <a href="{% url 'index' %}" class="breadcrumb">Liste des outils</a>
+    <a href="{% url 'check_arrangement:index' %}" class="breadcrumb">Liste des apparts</a>
+    <div class="max-w-xl mx-auto p-4 flex flex-col items-center">
+        <p class="text-2xl font-semibold mb-4 text-center">{{ apartment.name }}</p>
+        <span class="mb-4 text-center">Cet appart a été ajouté le {{ apartment.created_at|date:'d F Y à H:i' }}</span>
+        <div class="flex flex-wrap justify-center gap-4 mb-6">
+            <ul class="flex flex-col">
+                <li class="py-1 px-2">Nombre de chambre{{ apartment.bedroom|pluralize }} : {{ apartment.bedroom }}</li>
+                <li class="py-1 px-2">Nombre de SDB : {{ apartment.bathroom }}</li>
+            </ul>
+            <a class="my-3 self-center btn-access-table" href="{% url 'check_arrangement:add_issue' apartment.id %}">Ajouter incidents</a>
+        </div>
+        <div class="flex flex-col w-96 px-5">
+            {% if apartment_issues_dict %}
+            {% for room, issues in apartment_issues_dict.items %}
+            <p class="text-xl self-center mb-2">{{ room }}</p>
+            <ul class="mb-4">
                 {% for incident_type, details_list in issues.items %}
-                    <li>{{ incident_type }}
-                        <ul>
-                            {% for detail, issue_id in details_list %}
-                            <li>{{ detail }}</li>
-                            <a href="{% url 'check_arrangement:delete_issue' issue_id %}">Supprimer</a>
-                            {% endfor %}
-                        </ul>
-                    </li>
+                <span class="font-bold">{{ incident_type }}</span>
+                <li class="flex mb-3">
+                    <table>
+                        {% for detail, issue_id in details_list %}
+                        <tr class="flex gap-2 pl-4">
+                            <td>
+                                <a href="{% url 'check_arrangement:delete_issue' issue_id %}" title="Supprimer l'incident">❌</a>
+                            </td>
+                            <td>
+                                {{ detail }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </li>
                 {% endfor %}
             </ul>
-        {% endfor %}
-    {% else %}
-        <p>Aucun problème signalé pour cet appartement.</p>
-    {% endif %}
+            {% endfor %}
+        {% else %}
+            <p>Aucun problème signalé pour cet appartement.</p>
+        {% endif %}
+        </div>
+    </div>
 </body>
 </html>
