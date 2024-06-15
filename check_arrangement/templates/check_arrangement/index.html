@@ -39,6 +39,8 @@
                     {% endfor %}
                 </tbody>
             </table>
+            {% else %}
+            <span class="mt-10">Aucun appartement enregistré pour le moment...</span>
         {% endif %}
         <div id="addModal" class="modal" style="display: none;">
             <div class="modal-content max-w-xl">
@@ -60,7 +62,7 @@
             </div>
         </div>
         <a href="{% url 'check_arrangement:add_apartment' %}"
-           id="btn-add" class="btn-add mt-20">Ajouter un appartement ?</a>
+           id="btn-add" class="btn-add mt-20">Ajouter un appartement</a>
     </div>
 
 </body>
