@@ -16,7 +16,14 @@
         <form class='form-add' method="POST">
             {% csrf_token %}
             {{ form }}
-            <button type="submit" class="btn-add mt-16 self-center" title="Ajouter appartement">Ajouter appartement</button>
+            <ul class="flex w-full justify-between mt-16">
+                <li class="flex">
+                    <a href="{% url 'check_arrangement:index' %}" class="btn-cancel">Annuler</a>
+                </li>
+                <li>
+                    <button type="submit" class="btn-add self-center" title="Ajouter appartement">Ajouter appartement</button>
+                </li>
+            </ul>
         </form>
     </div>
 </body>

@@ -3,4 +3,3 @@ const formDivs = document.querySelectorAll('.form-add > div');
 formDivs.forEach((div) => {
     div.classList.add('label-input')
 })
-

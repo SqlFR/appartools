@@ -28,8 +28,13 @@ class IssuesForm(forms.ModelForm):
         model = ApartmentIssues
         fields = ['room', 'incident_type', 'details']
         widgets = {
-            'details': forms.Textarea(attrs={'class': 'form-control-input', 'rows': '2'})
+            'details': forms.Textarea(attrs={'class': 'form-control-input', 'rows': '2'}),
+            # 'modal': forms.FloatField()
         }
+
+    def test_print(self):
+
+        return print()
 
     def clean_details(self):
         details = self.cleaned_data['details']
