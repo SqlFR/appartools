@@ -3,6 +3,7 @@ from collections import defaultdict
 from .models import Apartment, ApartmentIssues
 from .forms import ApartmentForm, IssuesForm
 from django.apps import apps
+from django.urls import reverse
 
 
 def add_apartment(request):
@@ -45,7 +46,7 @@ def add_issue(request, apartment_id):
         if form.is_valid():
             form.instance.apartment = apartment
             form.save()
-            return redirect('check_arrangement:add_issue', apartment_id=apartment.id)
+            return redirect(f"{reverse('check_arrangement:add_issue', kwargs={'apartment_id': apartment.id})}?success=1")
     else:
         form = IssuesForm(apartment=apartment)
     context = {
