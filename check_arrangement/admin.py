@@ -1,8 +1,13 @@
 from django.contrib import admin
-from .models import Apartment, IncidentType
+from .models import Apartment, IncidentType, Sheets
 
 
+@admin.register(Apartment)
 class ApartmentAdmin(admin.ModelAdmin):
+    list_display = ('name', 'bedroom', 'bathroom')
+    search_fields = ['name']
+    # filter_horizontal = ['sheets']
+
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super().formfield_for_dbfield(db_field, **kwargs)
         if db_field.name == 'name':
@@ -16,9 +21,7 @@ class ApartmentAdmin(admin.ModelAdmin):
         return formfield
 
 
-admin.site.register(Apartment, ApartmentAdmin)
-
-
+@admin.register(IncidentType)
 class IssuesTypeAdmin(admin.ModelAdmin):
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super().formfield_for_dbfield(db_field, **kwargs)
@@ -27,6 +30,10 @@ class IssuesTypeAdmin(admin.ModelAdmin):
         return formfield
 
 
-admin.site.register(IncidentType, IssuesTypeAdmin)
+@admin.register(Sheets)
+class SheetsTypeAdmin(admin.ModelAdmin):
+    list_display = ('name', 'room')
+    list_filter = ['room']
+    search_fields = ['name']
 
 
