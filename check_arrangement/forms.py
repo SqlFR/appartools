@@ -53,6 +53,11 @@ class IssuesForm(forms.ModelForm):
     incident_type = forms.ModelChoiceField(queryset=IncidentType.objects.all(), label="Type d'incident")
 
 
+# Formulaire pr la gestion des accessoires, est-ce le bon choix ?
+# Je voyais ça avec un choix multiple pour chaque accessoire,
+# mon idéal était une màj automatique (sans bouton submit,
+# ou un bouton en bas de page mettant à jour tous les accessoires une fois leur état renseigné)
+# en base de donnée lors de la sélection dans le choix multiple
 class SheetForm(ModelForm):
 
     class Meta:
