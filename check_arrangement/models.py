@@ -19,13 +19,18 @@ class Apartment(models.Model):
     }, verbose_name='Nom')
     created_at = models.DateTimeField(auto_now_add=True)
     bedroom = models.PositiveSmallIntegerField(default=1,
-                                  validators=[
-                                      CustomMinValueValidator(1, f'Au moins 1 chambre ! On dort où sinon ?'), CustomMaxValueValidator(12)
-                                  ], verbose_name='Chambre')
+                                               validators=[
+                                                    CustomMinValueValidator(
+                                                    1,
+                                                    f'Au moins 1 chambre ! On dort où sinon ?'),
+                                                             CustomMaxValueValidator(12)
+                                                           ],
+                                               verbose_name='Chambre')
     bathroom = models.PositiveSmallIntegerField(default=1,
-                                   validators=[
-                                       CustomMaxValueValidator(6)
-                                   ], verbose_name='Salle de bain')
+                                               validators=[
+                                                   CustomMaxValueValidator(6)
+                                               ],
+                                                verbose_name='Salle de bain')
     kitchen = models.PositiveSmallIntegerField(default=1, verbose_name='Cuisine')
 
     class Meta:
@@ -41,6 +46,7 @@ class Apartment(models.Model):
         return self.name
 
 
+# Permet d'ajouter des accessoires depuis le panel admin
 class Sheets(models.Model):
     ROOM_CHOICES = (
         ('KITCHEN', 'Cuisine'),
@@ -52,6 +58,7 @@ class Sheets(models.Model):
     room = models.CharField(max_length=24, choices=ROOM_CHOICES,
                             default='KITCHEN', verbose_name='Pièce')
 
+    # Met la première lettre du champ 'name' en majuscule
     def save(self, *args, **kwargs):
         self.name = self.name.capitalize()
         super(Sheets, self).save(*args, **kwargs)
@@ -85,6 +92,7 @@ class ApartmentSheets(models.Model):
         verbose_name_plural = 'Accessoires'
 
 
+# Permet d'ajouter des types d'incident depuis le panel admin
 class IncidentType(models.Model):
     name = models.CharField(max_length=30, unique=True, verbose_name='Nom')
 
@@ -106,8 +114,3 @@ class ApartmentIssues(models.Model):
     incident_type = models.TextField(verbose_name='Type d\'incident')
     details = models.TextField(verbose_name='details')
 
-
-# @receiver(pre_save, sender=Apartment)
-# def create_apartment_slug(sender, instance, **kwargs):
-#     if not instance.slug:  # Générer le slug uniquement si slug est vide
-#         instance.slug = slugify(instance.name)

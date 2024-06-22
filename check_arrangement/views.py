@@ -60,6 +60,9 @@ def add_issue(request, apartment_id):
     return render(request, 'check_arrangement/add_issue.html', context)
 
 
+# Vue pour la gestion des accessoires
+# Je suis actuellent sur un formset mais ca ne fonctionne pas, car chaque formulaire doit avoir un accessoire différent
+# C'est un peu là ma plus grosse difficulté
 def sheets(request, apartment_id):
     apartment = get_object_or_404(Apartment, id=apartment_id)
     apartment_sheets = ApartmentSheets.objects.filter(apartment_id=apartment_id)
@@ -68,16 +71,12 @@ def sheets(request, apartment_id):
 
     if request.method == "POST":
         formset = SheetsFormset(request.POST)
-        print(formset)
+        if formset.is_valid():
+            formset.save()
 
         return redirect('check_arrangement:sheets', apartment_id=apartment_id)
     else:
-        formset = SheetsFormset(
-            initial=[
-                {
-                    'title': apartment_sheets[0]
-                }
-            ])
+        formset = SheetsFormset()
 
     context = {
         'apartment': apartment,
@@ -87,6 +86,7 @@ def sheets(request, apartment_id):
     return render(request, 'check_arrangement/sheets.html', context)
 
 
+# Vue permettant de voir les incidents qui ont été ajoutés pour l'appartement séléctionné
 def results(request, apartment_id):
     apartment = get_object_or_404(Apartment, id=apartment_id)
     apartment_issues = ApartmentIssues.objects.filter(apartment_id=apartment_id)
