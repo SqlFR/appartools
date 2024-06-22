@@ -23,4 +23,5 @@ urlpatterns = [
     path('', index, name="index"),
     path('check-apartment/', include('check_arrangement.urls')),
     path('admin/', admin.site.urls),
+    path("__debug__/", include("debug_toolbar.urls")),
 ]

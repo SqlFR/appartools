@@ -1,5 +1,6 @@
 from django import forms
-from .models import Apartment, ApartmentIssues, IncidentType
+from django.forms import ModelForm
+from .models import Apartment, ApartmentIssues, IncidentType, ApartmentSheets
 
 
 class ApartmentForm(forms.ModelForm):
@@ -52,6 +53,13 @@ class IssuesForm(forms.ModelForm):
     incident_type = forms.ModelChoiceField(queryset=IncidentType.objects.all(), label="Type d'incident")
 
 
+class SheetForm(ModelForm):
 
-
+    class Meta:
+        model = ApartmentSheets
+        fields = ['status']
+        choice_status = forms.ChoiceField(
+            required=False,
+            choices=ApartmentSheets.STATUS_CHOICES,
+        )
 

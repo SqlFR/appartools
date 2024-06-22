@@ -1,9 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from collections import defaultdict
-from .models import Apartment, ApartmentIssues
-from .forms import ApartmentForm, IssuesForm
+from .models import Apartment, ApartmentIssues, ApartmentSheets
+from .forms import ApartmentForm, IssuesForm, SheetForm
 from django.apps import apps
 from django.urls import reverse
+from django.forms import formset_factory
+
+from . import forms
 
 
 def add_apartment(request):
@@ -55,6 +58,33 @@ def add_issue(request, apartment_id):
     }
 
     return render(request, 'check_arrangement/add_issue.html', context)
+
+
+def sheets(request, apartment_id):
+    apartment = get_object_or_404(Apartment, id=apartment_id)
+    apartment_sheets = ApartmentSheets.objects.filter(apartment_id=apartment_id)
+
+    SheetsFormset = formset_factory(SheetForm)
+
+    if request.method == "POST":
+        formset = SheetsFormset(request.POST)
+        print(formset)
+
+        return redirect('check_arrangement:sheets', apartment_id=apartment_id)
+    else:
+        formset = SheetsFormset(
+            initial=[
+                {
+                    'title': apartment_sheets[0]
+                }
+            ])
+
+    context = {
+        'apartment': apartment,
+        'apartment_sheets': apartment_sheets,
+        'formset': formset
+    }
+    return render(request, 'check_arrangement/sheets.html', context)
 
 
 def results(request, apartment_id):
