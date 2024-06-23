@@ -56,7 +56,7 @@ class IssuesForm(forms.ModelForm):
 # Formulaire pr la gestion des accessoires, est-ce le bon choix ?
 # Je voyais ça avec un choix multiple pour chaque accessoire,
 # mon idéal était une màj automatique (sans bouton submit)
-class SheetForm(ModelForm):
+class SheetForm(forms.ModelForm):
 
     class Meta:
         model = ApartmentSheets
