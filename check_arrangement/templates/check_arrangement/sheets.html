@@ -15,56 +15,56 @@
   <div class="max-w-xl mx-auto p-4 flex flex-col items-center">
     <p class="text-2xl font-semibold mb-4 text-center">{{ apartment.name }}</p>
     <p>Liste des accessoires nécessaires</p>
-    {% if apartment_sheets %}
-      <form class="form-add" method="POST">
-        {% csrf_token %}
-        <table class="mb-4">
-          <thead>
-            <tr>
-              <th>Accessoire</th>
-              <th>Statut</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for form in forms %}
-              <tr>
-                <td>{{ form.instance.sheet.name }}</td>
-                <td>{{ form.status }}</td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-        <button class="btn-access-table mb-4" type="submit">Mettre à jour</button>
-      </form>
-    {% else %}
-    <p>Tous les accessoires ont été prit en charge.</p>
-    {% endif %}
-    {% if apartment_sheets_handled %}
+    {% for sheet in sheets %}
+      {% if sheet.status == 'NOT_HANDLED' %}
+        <p class="text-xl my-2 self-left">{{ sheet }}</p>
+        <div class="flex justify-between gap-2">
+          <a class='px-2 py-1 border-solid border-2 border-sky-800 bg-white' href="{% url 'check_arrangement:handled' sheet.id %}">Préparé</a>
+          <a class='px-2 py-1 border-solid border-2 border-sky-800 bg-white' href="{% url 'check_arrangement:delivery' sheet.id %}">Livré</a>
+          <a class='px-2 py-1 border-solid border-2 border-sky-800 bg-white' href="{% url 'check_arrangement:unavailable' sheet.id %}">Indisponible</a>
+        </div>
+      {% endif %}
+      {% empty %}
+      <p>Tous les accessoires ont été traités.</p>
+    {% endfor %}
+
+    {% if sheets_handled %}
       <div class="flex flex-col mb-4">
         <p>Accessoires prêt pour être livrés</p>
-        <ul>
-          {% for apartment_sheet_handled in apartment_sheets_handled %}
-            <li>{{ apartment_sheet_handled.sheet.name }}<a
-                    href="{% url 'check_arrangement:update_to_not_handled' apartment_sheet_handled.id %}">❌</a></li>
+          {% for sheet in sheets_handled %}
+            <ul>
+              <li>{{ sheet }}<a href="{% url 'check_arrangement:update_to_not_handled' sheet.id %}">❌</a>
+              </li>
+            </ul>
           {% endfor %}
-        </ul>
-        <a class="self-center btn-access-table" href="{% url 'check_arrangement:update' apartment.id %}">Définir comme livré</a>
+        <a class="self-center" href="{% url 'check_arrangement:to_delivery' apartment.id %}">Définir comme livré</a>
       </div>
-    {% else%}
-    <p>Aucun accessoire prêt</p>
     {% endif %}
-    {% if apartment_sheets_delivery %}
-      <div class="mb-4">
-        <p>Accessoires se trouvant sur place</p>
-        <ul>
-        {% for apartment_sheet_delivery in apartment_sheets_delivery %}
-          <li>{{ apartment_sheet_delivery.sheet.name }}<a
-                    href="{% url 'check_arrangement:update_to_not_handled' apartment_sheet_delivery.id %}">❌</a></li>
+
+    {% if sheets_delivery %}
+    <div class="flex flex-col mb-4">
+      <p>Accessoires déjà sur place</p>
+        {% for sheet in sheets_delivery %}
+          <ul>
+            <li>{{ sheet }}<a
+                    href="{% url 'check_arrangement:update_to_not_handled' sheet.id %}">❌</a>
+            </li>
+          </ul>
         {% endfor %}
-        </ul>
-      </div>
-    {% else %}
-    <span>Aucun accessoire sur place</span>
-    {% endif%}
+    </div>
+    {% endif %}
+
+    {% if sheets_unavailable %}
+    <div class="flex flex-col mb-4">
+      <p>Accessoires indisponible</p>
+        {% for sheet in sheets_unavailable %}
+          <ul>
+            <li>{{ sheet }}<a
+                    href="{% url 'check_arrangement:update_to_not_handled' sheet.id %}">❌</a>
+            </li>
+          </ul>
+        {% endfor %}
+    </div>
+    {% endif %}
   </div>
 </html>
