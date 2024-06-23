@@ -4,7 +4,6 @@ from .models import Apartment, ApartmentIssues, ApartmentSheets
 from .forms import ApartmentForm, IssuesForm, SheetForm
 from django.apps import apps
 from django.urls import reverse
-from django.forms import formset_factory
 
 from . import forms
 
@@ -61,27 +60,24 @@ def add_issue(request, apartment_id):
 
 
 # Vue pour la gestion des accessoires
-# Je suis actuellent sur un formset mais ca ne fonctionne pas, car chaque formulaire doit avoir un accessoire différent
-# C'est un peu là ma plus grosse difficulté
+# Récupère chaque accessoire pour distribuer aux formulaires
 def sheets(request, apartment_id):
     apartment = get_object_or_404(Apartment, id=apartment_id)
     apartment_sheets = ApartmentSheets.objects.filter(apartment_id=apartment_id)
 
-    SheetsFormset = formset_factory(SheetForm)
-
     if request.method == "POST":
-        formset = SheetsFormset(request.POST)
-        if formset.is_valid():
-            formset.save()
+        for sheet in apartment_sheets:
+            form = SheetForm(request.POST, instance=sheet)
+            if form.is_valid():
+                form.save()
+        return redirect('check_arrangement:sheets', apartment_id=apartment.id)
 
-        return redirect('check_arrangement:sheets', apartment_id=apartment_id)
-    else:
-        formset = SheetsFormset()
+    forms = [SheetForm(instance=sheet) for sheet in apartment_sheets]
 
     context = {
         'apartment': apartment,
         'apartment_sheets': apartment_sheets,
-        'formset': formset
+        'forms': forms
     }
     return render(request, 'check_arrangement/sheets.html', context)
 

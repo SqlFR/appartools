@@ -55,16 +55,13 @@ class IssuesForm(forms.ModelForm):
 
 # Formulaire pr la gestion des accessoires, est-ce le bon choix ?
 # Je voyais ça avec un choix multiple pour chaque accessoire,
-# mon idéal était une màj automatique (sans bouton submit,
-# ou un bouton en bas de page mettant à jour tous les accessoires une fois leur état renseigné)
-# en base de donnée lors de la sélection dans le choix multiple
+# mon idéal était une màj automatique (sans bouton submit)
 class SheetForm(ModelForm):
 
     class Meta:
         model = ApartmentSheets
         fields = ['status']
-        choice_status = forms.ChoiceField(
-            required=False,
-            choices=ApartmentSheets.STATUS_CHOICES,
-        )
+        widgets = {
+            'status': forms.Select()
+        }
 
