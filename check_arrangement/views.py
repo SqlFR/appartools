@@ -63,7 +63,13 @@ def add_issue(request, apartment_id):
 # Récupère chaque accessoire pour distribuer aux formulaires
 def sheets(request, apartment_id):
     apartment = get_object_or_404(Apartment, id=apartment_id)
-    apartment_sheets = ApartmentSheets.objects.filter(apartment_id=apartment_id)
+    statuses_to_form = ['NOT_HANDLED', 'NOT_AVAILABLE']
+    apartment_sheets = ApartmentSheets.objects.filter(apartment_id=apartment_id,
+                                                      status__in=statuses_to_form)
+    apartment_sheets_handled = ApartmentSheets.objects.filter(apartment_id=apartment_id,
+                                                              status='HANDLED')
+    apartment_sheets_delivery = ApartmentSheets.objects.filter(apartment_id=apartment_id,
+                                                               status='DELIVERY')
 
     if request.method == "POST":
         for sheet in apartment_sheets:
@@ -77,12 +83,28 @@ def sheets(request, apartment_id):
     context = {
         'apartment': apartment,
         'apartment_sheets': apartment_sheets,
+        'apartment_sheets_handled': apartment_sheets_handled,
+        'apartment_sheets_delivery': apartment_sheets_delivery,
         'forms': forms
     }
     return render(request, 'check_arrangement/sheets.html', context)
 
 
-# Vue permettant de voir les incidents qui ont été ajoutés pour l'appartement séléctionné
+def update(request, apartment_id):
+    apartment_sheets_handled = ApartmentSheets.objects.filter(apartment_id=apartment_id,
+                                                              status='HANDLED')
+    apartment_sheets_handled.update(status='DELIVERY')
+    return redirect('check_arrangement:sheets', apartment_id=apartment_id)
+
+
+def update_to_not_handled(request, apartment_sheet_handled_id):
+    apartment_sheet_handled = ApartmentSheets.objects.filter(id=apartment_sheet_handled_id)
+    apartment_id = apartment_sheet_handled.values()[0]['apartment_id']  # Recup l'id de l'appart
+    apartment_sheet_handled.update(status='NOT_HANDLED')
+    return redirect('check_arrangement:sheets', apartment_id=apartment_id)
+
+
+# Vue permettant de voir les incidents qui ont été ajoutés pour l'appartement sélectionné
 def results(request, apartment_id):
     apartment = get_object_or_404(Apartment, id=apartment_id)
     apartment_issues = ApartmentIssues.objects.filter(apartment_id=apartment_id)
