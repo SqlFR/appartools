@@ -74,7 +74,7 @@ class Sheets(models.Model):
 class ApartmentSheets(models.Model):
     STATUS_CHOICES = [
         ('NOT_HANDLED', 'Non traité'),
-        ('NOT_AVAILABLE', 'Non disponible'),
+        ('NOT_AVAILABLE', 'Indisponible'),
         ('HANDLED', 'Préparé'),
         ('DELIVERY', 'Livré')
     ]
@@ -84,7 +84,7 @@ class ApartmentSheets(models.Model):
     status = models.CharField(max_length=24, choices=STATUS_CHOICES, default='NOT_HANDLED')
 
     def __str__(self):
-        return f"{self.apartment.name} - {self.sheet.name} - {self.status}"
+        return f"{self.sheet.name}"
 
     class Meta:
         unique_together = ('apartment', 'sheet')  # Chaque paire doit être unique
