@@ -15,9 +15,10 @@
   <div class="max-w-xl mx-auto p-4 flex flex-col items-center">
     <p class="text-2xl font-semibold mb-4 text-center">{{ apartment.name }}</p>
     <p>Liste des accessoires nécessaires</p>
+    {% if apartment_sheets %}
       <form class="form-add" method="POST">
         {% csrf_token %}
-        <table>
+        <table class="mb-4">
           <thead>
             <tr>
               <th>Accessoire</th>
@@ -33,7 +34,37 @@
             {% endfor %}
           </tbody>
         </table>
-        <button type="submit">Mettre à jour</button>
+        <button class="btn-access-table mb-4" type="submit">Mettre à jour</button>
       </form>
+    {% else %}
+    <p>Tous les accessoires ont été prit en charge.</p>
+    {% endif %}
+    {% if apartment_sheets_handled %}
+      <div class="flex flex-col mb-4">
+        <p>Accessoires prêt pour être livrés</p>
+        <ul>
+          {% for apartment_sheet_handled in apartment_sheets_handled %}
+            <li>{{ apartment_sheet_handled.sheet.name }}<a
+                    href="{% url 'check_arrangement:update_to_not_handled' apartment_sheet_handled.id %}">❌</a></li>
+          {% endfor %}
+        </ul>
+        <a class="self-center btn-access-table" href="{% url 'check_arrangement:update' apartment.id %}">Définir comme livré</a>
+      </div>
+    {% else%}
+    <p>Aucun accessoire prêt</p>
+    {% endif %}
+    {% if apartment_sheets_delivery %}
+      <div class="mb-4">
+        <p>Accessoires se trouvant sur place</p>
+        <ul>
+        {% for apartment_sheet_delivery in apartment_sheets_delivery %}
+          <li>{{ apartment_sheet_delivery.sheet.name }}<a
+                    href="{% url 'check_arrangement:update_to_not_handled' apartment_sheet_delivery.id %}">❌</a></li>
+        {% endfor %}
+        </ul>
+      </div>
+    {% else %}
+    <span>Aucun accessoire sur place</span>
+    {% endif%}
   </div>
 </html>
