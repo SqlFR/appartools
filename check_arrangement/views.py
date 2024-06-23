@@ -67,12 +67,12 @@ def sheets(request, apartment_id):
 
     if request.method == "POST":
         for sheet in apartment_sheets:
-            form = SheetForm(request.POST, instance=sheet)
+            form = SheetForm(request.POST, instance=sheet, prefix=str(sheet.id))
             if form.is_valid():
                 form.save()
-        return redirect('check_arrangement:sheets', apartment_id=apartment.id)
+        return redirect('check_arrangement:sheets', apartment_id=apartment_id)
 
-    forms = [SheetForm(instance=sheet) for sheet in apartment_sheets]
+    forms = [SheetForm(instance=sheet, prefix=str(sheet.id)) for sheet in apartment_sheets]
 
     context = {
         'apartment': apartment,

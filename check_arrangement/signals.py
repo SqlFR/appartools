@@ -19,13 +19,12 @@ def add_default_incident_types(sender, **kwargs):
             IncidentType.objects.get_or_create(name=incident_type)
 
 
+# Ajoute automatiquement les accessoires (enregistré en db) à la création de l'appart
 @receiver(post_save, sender=Apartment)
 def add_sheet_to_apartments(sender, created, instance, **kwargs):
     if created:
         sheets = Sheets.objects.all()
-        print('Print du signal', sheets)
         for sheet in sheets:
-            print('Sheet :', sheet)
             ApartmentSheets.objects.create(
                 apartment=instance,
                 sheet=sheet
