@@ -18,22 +18,22 @@
             <table class="table-auto max-w-xl w-full">
                 <thead>
                     <tr>
-                        <th class="text-left">Nom</th>
-                        <th class="text-left">Chambres</th>
-                        <th class="text-left">SDB</th>
-                        <th class="text-left">Actions</th>
+                        <th class="">Nom</th>
+                        <th class="">Chambres</th>
+                        <th class="">SDB</th>
+                        <th class="">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for apartment in list_apartment %}
                     <tr>
-                        <td class="py-2"><a href="{% url 'check_arrangement:results' apartment.id %}" class="btn-access-table">{{ apartment.name }}</a></td>
-                        <td class="py-2"><span>{{ apartment.bedroom }}</span></td>
-                        <td class="py-2"><span>{{ apartment.bathroom }}</span></td>
-                        <td class="py-2 flex gap-3">
-                            <a href="{% url 'check_arrangement:add_issue' apartment.id %}" title="Ajouter incident" style="cursor: pointer">🔨</a>
-                            <button href="{% url 'check_arrangement:delete_apartment' apartment.id %}"
-                               class="btn-delete" title="Supprimer" data-id="{{ apartment.id }}">❌</button>
+                        <td class="py-2 text-center"><a href="{% url 'check_arrangement:results' apartment.id %}" class="btn-access-table">{{ apartment.name }}</a></td>
+                        <td class="py-2 text-center"><span>{{ apartment.bedroom }}</span></td>
+                        <td class="py-2 text-center"><span>{{ apartment.bathroom }}</span></td>
+                        <td class="py-2 flex justify-center gap-3">
+                            <a class="cursor-pointer" href="{% url 'check_arrangement:add_issue' apartment.id %}" title="Ajouter incident">🔨</a>
+                            <a class="cursor-pointer" href="{% url 'check_arrangement:sheets' apartment.id %}" title="Check list des accessoires">📑</a>
+                            <button class="btn-delete" title="Supprimer" data-id="{{ apartment.id }}">❌</button>
                         </td>
                     </tr>
                     {% endfor %}

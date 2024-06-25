@@ -19,9 +19,11 @@
                 <li class="py-1 px-2">Nombre de chambre{{ apartment.bedroom|pluralize }} : {{ apartment.bedroom }}</li>
                 <li class="py-1 px-2">Nombre de SDB : {{ apartment.bathroom }}</li>
             </ul>
-            <a class="my-3 self-center btn-access-table" href="{% url 'check_arrangement:add_issue' apartment.id %}">Ajouter incidents</a>
+            <a class="my-3 self-center btn-access-table"
+               href="{% url 'check_arrangement:add_issue' apartment.id %}">Ajouter incidents</a>
         </div>
-        <div class="flex flex-col w-96 px-5">
+        <p class="text-2xl mb-6">Liste des incidents</p>
+        <div class="flex flex-col w-96 px-5 mb-6">
             {% if apartment_issues_dict %}
             {% for room, issues in apartment_issues_dict.items %}
             <p class="text-xl self-center mb-2">{{ room }}</p>
@@ -48,6 +50,23 @@
         {% else %}
             <p>Aucun problème signalé pour cet appartement.</p>
         {% endif %}
+        </div>
+        <div class="flex flex-col gap-4 items-center w-full">
+            <p class="text-2xl mb-6">Liste des accessoires</p>
+            <div class="grid grid-cols-2 gap-y-6 gap-x-10">
+                 {% for status, sheets in apartment_sheets.items %}
+                <div>
+                    <p class="text-xl">{{ status }}</p>
+                    {% for sheet in sheets %}
+                    <ul>
+                        <li>{{ sheet }}</li>
+                    </ul>
+                    {% empty %}
+                    <p>Rien n'a encore été ajouté</p>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 </body>

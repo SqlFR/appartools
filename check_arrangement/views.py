@@ -1,9 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from collections import defaultdict
-from .models import Apartment, ApartmentIssues
-from .forms import ApartmentForm, IssuesForm
+from .models import Apartment, ApartmentIssues, ApartmentSheets
+from .forms import ApartmentForm, IssuesForm, SheetForm
 from django.apps import apps
 from django.urls import reverse
+
+from . import forms
 
 
 def add_apartment(request):
@@ -57,11 +59,93 @@ def add_issue(request, apartment_id):
     return render(request, 'check_arrangement/add_issue.html', context)
 
 
+# Vue pour la gestion des accessoires
+# Récupère chaque accessoire pour distribuer aux formulaires
+def sheets(request, apartment_id):
+    apartment = get_object_or_404(Apartment, id=apartment_id)
+    sheets = ApartmentSheets.objects.filter(apartment_id=apartment_id)
+    sheets_handled = ApartmentSheets.objects.filter(apartment_id=apartment_id, status='HANDLED')
+    sheets_delivery = ApartmentSheets.objects.filter(apartment_id=apartment_id, status='DELIVERY')
+    sheets_unavailable = ApartmentSheets.objects.filter(apartment_id=apartment_id, status='NOT_AVAILABLE')
+
+    # statuses_to_form = ['NOT_HANDLED', 'NOT_AVAILABLE']
+    # apartment_sheets = ApartmentSheets.objects.filter(apartment_id=apartment_id,
+    #                                                   status__in=statuses_to_form)
+    # apartment_sheets_handled = ApartmentSheets.objects.filter(apartment_id=apartment_id,
+    #                                                           status='HANDLED')
+    # apartment_sheets_delivery = ApartmentSheets.objects.filter(apartment_id=apartment_id,
+    #                                                            status='DELIVERY')
+    #
+    # if request.method == "POST":
+    #     for sheet in apartment_sheets:
+    #         form = SheetForm(request.POST, instance=sheet, prefix=str(sheet.id))
+    #         if form.is_valid():
+    #             form.save()
+    #     return redirect('check_arrangement:sheets', apartment_id=apartment_id)
+    #
+    # forms = [SheetForm(instance=sheet, prefix=str(sheet.id)) for sheet in apartment_sheets]
+    #
+    # context = {
+    #     'apartment': apartment,
+    #     'apartment_sheets': apartment_sheets,
+    #     'apartment_sheets_handled': apartment_sheets_handled,
+    #     'apartment_sheets_delivery': apartment_sheets_delivery,
+    #     'forms': forms
+    # }
+
+    context = {
+     'apartment': apartment,
+     'sheets':  sheets,
+     'sheets_handled': sheets_handled,
+     'sheets_delivery': sheets_delivery,
+     'sheets_unavailable': sheets_unavailable
+    }
+
+    return render(request, 'check_arrangement/sheets.html', context)
+
+
+def delivery(request, sheet_id):
+    sheet = ApartmentSheets.objects.filter(id=sheet_id)
+    apartment_id = sheet.values()[0]['apartment_id']
+    sheet.update(status='DELIVERY')
+    return redirect('check_arrangement:sheets', apartment_id=apartment_id)
+
+
+def handled(request, sheet_id):
+    sheet = ApartmentSheets.objects.filter(id=sheet_id)
+    apartment_id = sheet.values()[0]['apartment_id']
+    sheet.update(status='HANDLED')
+    return redirect('check_arrangement:sheets', apartment_id=apartment_id)
+
+
+def unavailable(request, sheet_id):
+    sheet = ApartmentSheets.objects.filter(id=sheet_id)
+    apartment_id = sheet.values()[0]['apartment_id']
+    sheet.update(status='NOT_AVAILABLE')
+    return redirect('check_arrangement:sheets', apartment_id=apartment_id)
+
+
+def to_delivery(request, apartment_id):
+    sheets_handled = ApartmentSheets.objects.filter(apartment_id=apartment_id, status='HANDLED')
+    sheets_handled.update(status='DELIVERY')
+    return redirect('check_arrangement:sheets', apartment_id=apartment_id)
+
+
+def update_to_not_handled(request, apartment_sheet_handled_id):
+    apartment_sheet_handled = ApartmentSheets.objects.filter(id=apartment_sheet_handled_id)
+    apartment_id = apartment_sheet_handled.values()[0]['apartment_id']  # Recup l'id de l'appart
+    apartment_sheet_handled.update(status='NOT_HANDLED')
+    return redirect('check_arrangement:sheets', apartment_id=apartment_id)
+
+
+# Vue permettant de voir les incidents qui ont été ajoutés pour l'appartement sélectionné
 def results(request, apartment_id):
     apartment = get_object_or_404(Apartment, id=apartment_id)
     apartment_issues = ApartmentIssues.objects.filter(apartment_id=apartment_id)
+    apartment_sheets = ApartmentSheets.objects.filter(apartment_id=apartment_id)
+    status_choices = ApartmentSheets.STATUS_CHOICES
 
-    # Initialisation du dictionnaire
+    # Initialisation du dictionnaire pour les incidents
     apartment_issues_dict = defaultdict(lambda: defaultdict(list))
     # Ajoute incidents présent dans le dict
     for issue in apartment_issues:
@@ -73,10 +157,20 @@ def results(request, apartment_id):
     # Conversion en dict normal
     apartment_issues_dict = {room: dict(issues) for room, issues in apartment_issues_dict.items()}
 
+    apartment_sheets_dict = defaultdict(list)
+
+    for sheet in apartment_sheets:
+        apartment_sheets_dict[sheet.status].append(sheet)
+
+    apartment_sheets_dict = dict(apartment_sheets_dict)
+
+    apartment_sheets = {value: apartment_sheets_dict.get(key, []) for key, value in status_choices}
+    print(apartment_sheets)
+
     context = {
         'apartment': apartment,
-        'apartment_issues': apartment_issues,
         'apartment_issues_dict': apartment_issues_dict,
+        'apartment_sheets': apartment_sheets
     }
     return render(request, 'check_arrangement/results.html', context)
 

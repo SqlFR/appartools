@@ -14,20 +14,24 @@ class CustomMaxValueValidator(MaxValueValidator):
 
 class Apartment(models.Model):
 
-    DoesNotExist = None
     name = models.CharField(max_length=32, unique=True, error_messages={
         'unique': 'Un appartement portant ce nom éxiste déjà.'
-    })
+    }, verbose_name='Nom')
     created_at = models.DateTimeField(auto_now_add=True)
-    bedroom = models.IntegerField(default=1,
-                                  validators=[
-                                      CustomMinValueValidator(1, f'Au moins 1 chambre ! On dort où sinon ?'), CustomMaxValueValidator(12)
-                                  ])
-    bathroom = models.IntegerField(default=1,
-                                   validators=[
-                                       CustomMinValueValidator(0), CustomMaxValueValidator(6)
-                                   ])
-    kitchen = models.IntegerField(default=1)
+    bedroom = models.PositiveSmallIntegerField(default=1,
+                                               validators=[
+                                                    CustomMinValueValidator(
+                                                    1,
+                                                    f'Au moins 1 chambre ! On dort où sinon ?'),
+                                                             CustomMaxValueValidator(12)
+                                                           ],
+                                               verbose_name='Chambre')
+    bathroom = models.PositiveSmallIntegerField(default=1,
+                                               validators=[
+                                                   CustomMaxValueValidator(6)
+                                               ],
+                                                verbose_name='Salle de bain')
+    kitchen = models.PositiveSmallIntegerField(default=1, verbose_name='Cuisine')
 
     class Meta:
         verbose_name = 'Appartement'
@@ -42,41 +46,71 @@ class Apartment(models.Model):
         return self.name
 
 
-class Rooms(models.Model):
-    name = models.CharField(max_length=22)
+# Permet d'ajouter des accessoires depuis le panel admin
+class Sheets(models.Model):
+    ROOM_CHOICES = (
+        ('KITCHEN', 'Cuisine'),
+        ('BEDROOM', 'Chambre'),
+        ('BATHROOM', 'Salle de bain'),
+        ('COMMON', 'Espaces communs')
+    )
+    name = models.CharField(max_length=24, unique=True, verbose_name='Nom')
+    room = models.CharField(max_length=24, choices=ROOM_CHOICES,
+                            default='KITCHEN', verbose_name='Pièce')
+
+    # Met la première lettre du champ 'name' en majuscule
+    def save(self, *args, **kwargs):
+        self.name = self.name.capitalize()
+        super(Sheets, self).save(*args, **kwargs)
 
     class Meta:
-        verbose_name = 'Pièce'
+        verbose_name = 'Accessoire'
+        verbose_name_plural = 'Accessoires'
 
     def __str__(self):
         return self.name
 
 
-class IncidentType(models.Model):
-    name = models.CharField(max_length=30, unique=True)
+class ApartmentSheets(models.Model):
+    STATUS_CHOICES = [
+        ('NOT_HANDLED', 'Non traité'),
+        ('NOT_AVAILABLE', 'Indisponible'),
+        ('HANDLED', 'Préparé'),
+        ('DELIVERY', 'Livré')
+    ]
 
-    class Meta:
-        verbose_name = 'Nature d\'incident'
-
-    def __str__(self):
-        return self.name
-
-
-class ApartmentIssues(models.Model):
     apartment = models.ForeignKey(Apartment, on_delete=models.CASCADE)
-    room = models.CharField(max_length=24, verbose_name='pièce', default='')
-    incident_type = models.TextField(verbose_name='Type d\'incident', default='incident')
-    details = models.CharField(max_length=100, verbose_name='details', default='')
+    sheet = models.ForeignKey(Sheets, on_delete=models.CASCADE)
+    status = models.CharField(max_length=24, choices=STATUS_CHOICES, default='NOT_HANDLED')
+
+    def __str__(self):
+        return f"{self.sheet.name}"
+
+    class Meta:
+        unique_together = ('apartment', 'sheet')  # Chaque paire doit être unique
+        verbose_name = 'Accessoire'
+        verbose_name_plural = 'Accessoires'
+
+
+# Permet d'ajouter des types d'incident depuis le panel admin
+class IncidentType(models.Model):
+    name = models.CharField(max_length=30, unique=True, verbose_name='Nom')
 
     class Meta:
         verbose_name = 'Incident'
         verbose_name_plural = 'Incidents'
 
     def __str__(self):
-        return self.details
+        return self.name
+
+    def save(self, *args, **kwargs):
+        self.name = self.name.capitalize()
+        super(IncidentType, self).save(*args, **kwargs)
 
 
-# @receiver(pre_save, sender=Apartment)
-# def create_apartment_slug(sender, instance, **kwargs):
-#     if not instance.slug:  # Générer le slug uniquement si slug est vide
-#         instance.slug = slugify(instance.name)
+class ApartmentIssues(models.Model):
+    apartment = models.ForeignKey(Apartment, on_delete=models.CASCADE)
+    room = models.CharField(max_length=24, verbose_name='pièce')
+    incident_type = models.TextField(verbose_name='Type d\'incident')
+    details = models.TextField(verbose_name='details')
+
