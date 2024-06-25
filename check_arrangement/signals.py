@@ -21,11 +21,23 @@ def add_default_incident_types(sender, **kwargs):
 
 # Ajoute automatiquement les accessoires (enregistré en db) à la création de l'appart
 @receiver(post_save, sender=Apartment)
-def add_sheet_to_apartments(sender, created, instance, **kwargs):
+def add_sheets_when_apartment_created(sender, created, instance, **kwargs):
     if created:
         sheets = Sheets.objects.all()
         for sheet in sheets:
             ApartmentSheets.objects.create(
                 apartment=instance,
                 sheet=sheet
+            )
+
+
+# Ajoute l'accessoire qui vient d'être créé à tous les appartements déjà créé
+@receiver(post_save, sender=Sheets)
+def add_sheet_to_apartment_when_created(sender, created, instance, **kwargs):
+    if created:
+        apartments = Apartment.objects.all()
+        for apartment in apartments:
+            ApartmentSheets.objects.create(
+                apartment=apartment,
+                sheet=instance
             )
