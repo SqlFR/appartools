@@ -142,8 +142,10 @@ def update_to_not_handled(request, apartment_sheet_handled_id):
 def results(request, apartment_id):
     apartment = get_object_or_404(Apartment, id=apartment_id)
     apartment_issues = ApartmentIssues.objects.filter(apartment_id=apartment_id)
+    apartment_sheets = ApartmentSheets.objects.filter(apartment_id=apartment_id)
+    status_choices = ApartmentSheets.STATUS_CHOICES
 
-    # Initialisation du dictionnaire
+    # Initialisation du dictionnaire pour les incidents
     apartment_issues_dict = defaultdict(lambda: defaultdict(list))
     # Ajoute incidents présent dans le dict
     for issue in apartment_issues:
@@ -155,10 +157,20 @@ def results(request, apartment_id):
     # Conversion en dict normal
     apartment_issues_dict = {room: dict(issues) for room, issues in apartment_issues_dict.items()}
 
+    apartment_sheets_dict = defaultdict(list)
+
+    for sheet in apartment_sheets:
+        apartment_sheets_dict[sheet.status].append(sheet)
+
+    apartment_sheets_dict = dict(apartment_sheets_dict)
+
+    apartment_sheets = {value: apartment_sheets_dict.get(key, []) for key, value in status_choices}
+    print(apartment_sheets)
+
     context = {
         'apartment': apartment,
-        'apartment_issues': apartment_issues,
         'apartment_issues_dict': apartment_issues_dict,
+        'apartment_sheets': apartment_sheets
     }
     return render(request, 'check_arrangement/results.html', context)
 
