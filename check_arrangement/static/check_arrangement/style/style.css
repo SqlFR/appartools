@@ -3,16 +3,9 @@
 @tailwind utilities;
 
 .breadcrumb {
-    @apply text-gray-400 text-sm underline pl-1.5
+    @apply text-sky-800 text-sm underline pl-1.5
 }
 
-.btn-access-table {
-    @apply bg-blue-600 text-white font-medium px-4 py-1 rounded-md shadow-xl;
-}
-
-.btn-access-table:hover {
-    @apply bg-blue-700
-}
 
 .btn-add {
     @apply bg-green-600 text-white font-medium px-4 py-1 rounded-md shadow-xl
@@ -74,15 +67,7 @@
 
 /* add_apartment.html & add_issue.html */
 
-/* Tailwind CSS Custom Styles Retire les fleches sur les inputs */
-.no-arrows::-webkit-outer-spin-button,
-.no-arrows::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-.no-arrows {
-    -moz-appearance: textfield;
-}
+
 
 .form-control-input {
     @apply shadow-inner w-48 outline-none

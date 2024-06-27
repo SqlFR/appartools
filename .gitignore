@@ -6,3 +6,4 @@ package.json
 package-lock.json
 todo.txt
 db.sqlite3
+fixtures.json
