@@ -2,6 +2,7 @@ from django.db.models.signals import post_migrate, post_save
 from django.dispatch import receiver
 from .models import IncidentType, Apartment, Sheets, ApartmentSheets
 
+
 # Ajoute les types d'incidents automatiquement (lors d'une migration)
 @receiver(post_migrate)
 def add_default_incident_types(sender, **kwargs):
@@ -17,6 +18,23 @@ def add_default_incident_types(sender, **kwargs):
 
         for incident_type in default_incident_types:
             IncidentType.objects.get_or_create(name=incident_type)
+
+# Ajoute les accessoires
+@receiver(post_migrate)
+def add_sheets(sender, **kwargs):
+    if sender.name == 'check_arrangement':
+        default_sheets = {
+            'KITCHEN': ('Poêles', 'Casseroles'),
+            'BATHROOM': ('Tapis de de bain', 'Brosse toilettes'),
+            'COMMON': 'Rack à chaussures'
+        }
+
+        for room, sheet in default_sheets.items():
+            if isinstance(sheet, tuple):  # Prévient si valeur dans le dict n'est pas un tuple
+                for item in sheet:
+                    Sheets.objects.get_or_create(room=room, name=item)
+            else:
+                Sheets.objects.get_or_create(room=room, name=sheet)
 
 
 # Ajoute automatiquement les accessoires (enregistré en db) à la création de l'appart

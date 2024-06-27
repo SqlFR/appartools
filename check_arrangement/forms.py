@@ -14,8 +14,8 @@ class ApartmentForm(forms.ModelForm):
         }
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control-input'}),
-            'bedroom': forms.NumberInput(attrs={'class': 'form-control-input number-input no-arrows'}),
-            'bathroom': forms.NumberInput(attrs={'class': 'form-control-input number-input no-arrows'}),
+            'bedroom': forms.NumberInput(attrs={'class': 'form-control-input number-input'}),
+            'bathroom': forms.NumberInput(attrs={'class': 'form-control-input number-input'}),
         }
 
     # Met la première lettre du champ 'name' en majuscule
