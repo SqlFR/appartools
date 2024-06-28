@@ -1,0 +1,109 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.breadcrumb {
+    @apply text-sky-800 text-sm underline pl-1.5
+}
+
+
+.btn-add {
+    @apply bg-green-600 text-white font-medium px-4 py-1 rounded-md shadow-xl
+}
+
+.btn-cancel {
+    @apply bg-red-600 text-white font-medium px-4 py-1 rounded-md shadow-xl
+}
+
+.btn-cancel:hover {
+    @apply bg-red-700
+}
+
+.btn-add:hover {
+    @apply bg-green-700
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 25% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 70%;
+    position: relative;
+}
+
+.modal-content {
+    @apply md:mt-60
+}
+.close-add, .close-delete {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-add:hover, .close-delete:hover,
+.close:focus, .close-delete:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* add_apartment.html & add_issue.html */
+
+
+
+.form-control-input {
+    @apply shadow-inner w-48 outline-none
+}
+
+.form-control-input:focus {
+    @apply border-cyan-600 outline-none
+}
+
+.number-input {
+    @apply w-12
+}
+
+.label-input {
+    @apply flex flex-col my-1 w-full
+}
+
+#id_room, #id_details {
+    @apply w-full
+}
+
+.errorlist {
+    @apply text-red-600 my-1
+}
+
+.form-add {
+    @apply flex flex-col items-center w-72
+}
+
+/* Modal add-modal-issue-success */
+
+.modal-success-issue {
+    display: none;
+    @apply absolute right-2 top-2 bg-green-600 rounded-md p-2 text-white
+ }
+
+.show {
+    @apply block
+}

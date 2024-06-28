@@ -165,7 +165,6 @@ def results(request, apartment_id):
     apartment_sheets_dict = dict(apartment_sheets_dict)
 
     apartment_sheets = {value: apartment_sheets_dict.get(key, []) for key, value in status_choices}
-    print(apartment_sheets)
 
     context = {
         'apartment': apartment,
