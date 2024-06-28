@@ -65,23 +65,31 @@
       <h2 class="text-2xl my-6 text-center">Liste des accessoires</h2>
       <div class="grid grid-cols-2 grid-rows-2 md:grid-cols-4 gap-4">
         {% for status, sheets in apartment_sheets.items %}
-        <div class="border border-gray-200 rounded-md overflow-hidden">
+        <div class="border h-fit border-gray-200 rounded-md overflow-hidden">
           <table class="w-full text-sm bg-white md:text-base">
-          <thead>
-           <tr class="text-lg">
-             <th class="md:px-4 md:py-2 p-1 text-left">
-               {{ status }}
-             </th>
-           </tr>
-          </thead>
-          <tbody>
-            {% for sheet in sheets %}
-            <tr>
-              <td class="md:px-4 md:py-2 p-1 border-t border-1">{{ sheet }}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+            <thead>
+             <tr class="text-lg">
+               <th class="md:px-4 md:py-2 p-1 text-left">
+                 {{ status }}
+               </th>
+             </tr>
+            </thead>
+            {% if sheets %}
+            <tbody>
+              {% for sheet in sheets %}
+              <tr>
+                <td class="md:px-4 md:py-2 p-1 border-t border-1">{{ sheet }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+              {% else %}
+              <tbody>
+                <tr>
+                  <td class="md:px-4 md:py-2 p-1 border-t border-1">Non renseigné</td>
+                </tr>
+              </tbody>
+            {% endif %}
+          </table>
         </div>
         {% endfor %}
       </div>
