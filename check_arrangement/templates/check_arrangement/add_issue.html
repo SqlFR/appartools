@@ -9,26 +9,33 @@
     <link rel="stylesheet" href="{% static 'check_arrangement/style/style_output.css' %}">
     <script src="{% static 'check_arrangement/js/forms.js' %}" defer></script>
 </head>
-<body class="h-full bg-gray-50 text-gray-800">
+<body>
     <a href="{% url 'index' %}" class="breadcrumb">Liste des outils</a>
     <a href="{% url 'check_arrangement:index' %}" class="breadcrumb">Liste des appartements</a>
-    <div class="max-w-xl mx-auto p-4 flex flex-col items-center relative">
-        <p class="text-2xl font-semibold mb-4 text-center">{{ apartment.name }}</p>
-        <div class="flex flex-wrap justify-center gap-4 mb-6">
-            <ul class="flex flex-col">
-                <li class="py-1 px-2">Nombre de chambre{{ apartment.bedroom|pluralize }} : {{ apartment.bedroom }}</li>
-                <li class="py-1 px-2">Nombre de SDB : {{ apartment.bathroom }}</li>
-            </ul>
-            <a class="my-3 self-center btn-access-table" href="{% url 'check_arrangement:results' apartment.id %}">Fiche appart</a>
+    <div class="main">
+        <div class="container card-head-apart">
+            <h1 class="card-head-apart-name">{{ apartment.name }}</h1>
+            <div class="card-head-apart-col-label">
+                <ul>
+                    <li class="card-label">{{ apartment.bedroom }} chambre{{ apartment.bedroom|pluralize }}</li>
+                    <li class="card-label">{{ apartment.bathroom }} salle{{ apartment.bathroom|pluralize }} de bain</li>
+                </ul>
+                <p class="text-base font-normal text-xs">Ajouté le {{ apartment.created_at|date:'d F Y à H:i' }}</p>
+            </div>
+            <div class="card-head-apart-col-btn">
+                <a class="btn secondary-btn" href="{% url 'check_arrangement:results' apartment.id %}">Fiche appart</a>
+            </div>
         </div>
-
-        <form class='form-add' method="POST">
-            {% csrf_token %}
-            <h2 class="mb-6 self-center">-----  Renseigne un incident  -----</h2>
+        <h2 class="title-category">Renseigner un incident</h2>
+        <form class='form-add-issue' method="POST">
+        {% csrf_token %}
             {{ form }}
-            <button class="btn-add mt-16 self-center" type="submit" title="Ajouter incident">Ajouter incident</button>
+            <div class="w-full flex justify-center mt-6">
+                <button class="btn primary-btn" type="submit" title="Ajouter incident">Ajouter incident</button>
+            </div>
         </form>
     <div id="add-issue-modal-success" class="modal-success-issue">Incident Ajoutée !</div>
+    </div>
     </div>
 </body>
 </html>

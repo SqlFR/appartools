@@ -8,61 +8,57 @@
   <meta name="viewport" content="width=device-width">
   <link rel="stylesheet" href="{% static 'check_arrangement/style/style_output.css' %}">
 </head>
-<body class="h-full bg-gray-50 text-gray-800">
-  <a href="{% url 'index' %}" class="breadcrumb">Liste des outils</a>
-  <a href="{% url 'check_arrangement:index' %}" class="breadcrumb">Liste des apparts</a>
-  <div class="md:max-w-4xl md:p-6 max-w-xl mx-auto p-2 flex flex-col items-center">
-    <div class="md:max-w-xl w-full p-2 md:py-4 border border-1 rounded-md overflow-hidden bg-white">
-      <div class="grid grid-cols-9 md:px-6">
-        <div class="col-span-5 md:col-span-3 md:col-start-1 pr-2">
-          <h1 class="text-2xl font-semibold mb-2 text-left">{{ apartment.name }}</h1>
-          <ul class="">
-            <li class="bg-gray-300 rounded-md px-2 w-fit mb-2">{{ apartment.bedroom }} chambre{{ apartment.bedroom|pluralize }}</li>
-            <li class="bg-gray-300 rounded-md px-2 w-fit mb-2">{{ apartment.bathroom }} salle{{ apartment.bathroom|pluralize }} de bain</li>
+<body>
+  <a href="{% url 'index' %}" class="breadcrumb">Les outils</a>
+  <a href="{% url 'check_arrangement:index' %}" class="breadcrumb">Les apparts</a>
+  <div class="main">
+    <div class="container card-head-apart">
+        <h1 class="card-head-apart-name">{{ apartment.name }}</h1>
+        <div class="card-head-apart-col-label">
+          <ul>
+            <li class="card-label">{{ apartment.bedroom }} chambre{{ apartment.bedroom|pluralize }}</li>
+            <li class="card-label">{{ apartment.bathroom }} salle{{ apartment.bathroom|pluralize }} de bain</li>
           </ul>
           <p class="text-base font-normal text-xs">Ajouté le {{ apartment.created_at|date:'d F Y à H:i' }}</p>
         </div>
-        <div class="flex flex-col justify-end gap-2 col-start-6 col-end-10 md:col-start-7">
-         <a class="bg-sky-800 text-white px-4 py-2 text-sm text-center rounded-md"
+        <div class="card-head-apart-col-btn">
+         <a class="btn secondary-btn"
              href="{% url 'check_arrangement:add_issue' apartment.id %}">Ajouter incidents</a>
-          <a class="bg-sky-800 text-white px-4 py-2 text-sm text-center rounded-md"
+          <a class="btn secondary-btn"
              href="{% url 'check_arrangement:sheets' apartment.id %}">Les accessoires</a>
         </div>
-      </div>
     </div>
     {% if apartment_issues_dict %}
-    <div class="w-full">
-      <h2 class="text-2xl my-6 text-center">Liste des incidents</h2>
-      <div class="border border-gray-200 rounded-md overflow-hidden">
-        <table class="w-full text-sm bg-white md:text-base">
-        <thead>
-          <tr class="text-lg">
-            <th class="md:px-4 md:py-2 p-1 text-left">Pièce</th>
-            <th class="md:px-4 md:py-2 p-1 text-left">Type</th>
-            <th class="md:px-4 md:py-2 p-1 text-left">Détails</th>
-            <th class="md:px-4 md:py-2 p-1 text-left">Actions</th>
-          </tr>
-        </thead>
-        {% for room, issues in apartment_issues_dict.items %}
-        {% for incident_type, details_list in issues.items %}
-        {% for detail, issue_id in details_list %}
-        <tbody>
-          <tr>
-            <th class="md:px-4 md:py-2 p-1 text-left border-t border-1">{{ room }}</th>
-            <td class="md:px-4 md:py-2 p-1 border-t border-1">{{ incident_type }}</td>
-            <td class="md:px-4 md:py-2 p-1 border-t border-1">{{ detail }}</td>
-            <td class="md:px-4 md:py-2 p-1 text-center border-t border-1"><a href="{% url 'check_arrangement:delete_issue' issue_id %}" title="Supprimer l'incident">❌</a></td>
-          </tr>
-        </tbody>
-        {% endfor %}
-        {% endfor %}
-        {% endfor %}
-      </table>
-      </div>
+    <h2 class="title-category">Liste des incidents</h2>
+    <div class="border rounded-md overflow-hidden w-full">
+      <table class="w-full text-sm bg-white md:text-base">
+      <thead>
+        <tr class="text-lg">
+          <th class="md:px-4 md:py-2 p-1 text-left">Pièce</th>
+          <th class="md:px-4 md:py-2 p-1 text-left">Type</th>
+          <th class="md:px-4 md:py-2 p-1 text-left">Détails</th>
+          <th class="md:px-4 md:py-2 p-1 text-left">Actions</th>
+        </tr>
+      </thead>
+      {% for room, issues in apartment_issues_dict.items %}
+      {% for incident_type, details_list in issues.items %}
+      {% for detail, issue_id in details_list %}
+      <tbody>
+        <tr>
+          <th class="md:px-4 md:py-2 p-1 text-left border-t">{{ room }}</th>
+          <td class="md:px-4 md:py-2 p-1 border-t">{{ incident_type }}</td>
+          <td class="md:px-4 md:py-2 p-1 border-t">{{ detail }}</td>
+          <td class="md:px-4 md:py-2 p-1 text-center border-t"><a href="{% url 'check_arrangement:delete_issue' issue_id %}" title="Supprimer l'incident">❌</a></td>
+        </tr>
+      </tbody>
+      {% endfor %}
+      {% endfor %}
+      {% endfor %}
+    </table>
     </div>
     {% endif %}
     <div class="w-full">
-      <h2 class="text-2xl my-6 text-center">Liste des accessoires</h2>
+      <h2 class="title-category">Liste des accessoires</h2>
       <div class="grid grid-cols-2 grid-rows-2 md:grid-cols-4 gap-4">
         {% for status, sheets in apartment_sheets.items %}
         <div class="border h-fit border-gray-200 rounded-md overflow-hidden">
@@ -78,14 +74,14 @@
             <tbody>
               {% for sheet in sheets %}
               <tr>
-                <td class="md:px-4 md:py-2 p-1 border-t border-1">{{ sheet }}</td>
+                <td class="md:px-4 md:py-2 p-1 border-t">{{ sheet }}</td>
               </tr>
               {% endfor %}
             </tbody>
               {% else %}
               <tbody>
                 <tr>
-                  <td class="md:px-4 md:py-2 p-1 border-t border-1">Non renseigné</td>
+                  <td class="md:px-4 md:py-2 p-1 border-t">Non renseigné</td>
                 </tr>
               </tbody>
             {% endif %}
