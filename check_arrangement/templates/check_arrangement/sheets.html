@@ -13,18 +13,18 @@
   <a href="{% url 'check_arrangement:index' %}" class="breadcrumb">Les apparts</a>
   <div class="main">
     <div class="container card-head-apart">
-            <h1 class="card-head-apart-name">{{ apartment.name }}</h1>
-            <div class="card-head-apart-col-label">
-                <ul>
-                    <li class="card-label">{{ apartment.bedroom }} chambre{{ apartment.bedroom|pluralize }}</li>
-                    <li class="card-label">{{ apartment.bathroom }} salle{{ apartment.bathroom|pluralize }} de bain</li>
-                </ul>
-                <p class="text-base font-normal text-xs">Ajouté le {{ apartment.created_at|date:'d F Y à H:i' }}</p>
-            </div>
-            <div class="card-head-apart-col-btn">
-                <a class="btn secondary-btn" href="{% url 'check_arrangement:results' apartment.id %}">Fiche appart</a>
-            </div>
-        </div>
+      <h3 class="card-apart-name">{{ apartment.name }}</h3>
+      <div class="card-head-apart-col-label">
+          <ul>
+              <li class="card-label">{{ apartment.bedroom }} chambre{{ apartment.bedroom|pluralize }}</li>
+              <li class="card-label">{{ apartment.bathroom }} salle{{ apartment.bathroom|pluralize }} de bain</li>
+          </ul>
+          <p class="text-base font-normal text-xs">Ajouté le {{ apartment.created_at|date:'d F Y à H:i' }}</p>
+      </div>
+      <div class="card-head-apart-col-btn">
+          <a class="btn primary-btn" href="{% url 'check_arrangement:results' apartment.id %}">Fiche appart</a>
+      </div>
+    </div>
     <h2 class="title-category">Les accessoires nécessaires</h2>
     <div class="w-full md:max-w-xl flex flex-col gap-8">
       <div class="container">
