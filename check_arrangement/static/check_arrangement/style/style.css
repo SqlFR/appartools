@@ -28,12 +28,8 @@ body {
     @apply md:max-w-xl w-full bg-white grid grid-cols-9
 }
 
-.card-head-apart-name {
-    @apply text-2xl font-semibold mb-2 col-span-9
-}
-
 .card-head-apart-col-label {
-    @apply col-span-5 md:col-span-3 md:col-start-1 pr-2
+    @apply col-span-5 md:col-span-4 md:col-start-1 pr-2
 }
 
 .card-head-apart-col-btn {
@@ -42,8 +38,16 @@ body {
 
 /* card */
 
+.card-apart-width {
+    max-width: calc(50% - 16px);
+}
+
+.card-apart-name {
+    @apply text-xl font-semibold mb-2 col-span-9
+}
+
 .card-label {
-    @apply bg-gray-300 rounded-md px-2 w-fit mb-2 p-2
+    @apply bg-gray-300 rounded-md px-2 py-1 w-fit mb-2
 }
 
 
@@ -51,7 +55,7 @@ body {
 /* button */
 
 .btn {
-    @apply md:text-base p-2 font-semibold text-sm text-center rounded-md transition ease-in-out
+    @apply md:text-base p-1 font-semibold text-sm text-center rounded-md transition ease-in-out
 }
 
 .primary-btn {
