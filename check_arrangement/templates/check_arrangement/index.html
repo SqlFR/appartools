@@ -33,7 +33,8 @@
                     <a class="btn secondary-btn"
                         href="{% url 'check_arrangement:sheets' apartment.id %}">Les accessoires</a>
                 </div>
-                <a class="btn primary-btn w-full mt-2 col-start-4 col-end-7 justify-self-center" href="{% url 'check_arrangement:results' apartment.id %}">Fiche appart</a>
+                <a class="btn primary-btn card-apart-row-bottom" href="{% url 'check_arrangement:results' apartment.id %}">Fiche appart</a>
+
             </div>
             {% endfor %}
             {% else %}
