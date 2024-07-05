@@ -76,7 +76,7 @@ def sheets(request, apartment_id):
     if not sheets_not_handled:
         all_sheets_handled = True
 
-    print(all_sheets_handled)
+
     context = {
      'apartment': apartment,
      'sheets':  sheets,
