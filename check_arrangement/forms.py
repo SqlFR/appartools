@@ -1,5 +1,4 @@
 from django import forms
-from django.forms import ModelForm
 from .models import Apartment, ApartmentIssues, IncidentType, ApartmentSheets
 
 
@@ -29,7 +28,7 @@ class IssuesForm(forms.ModelForm):
         model = ApartmentIssues
         fields = ['room', 'incident_type', 'details']
         widgets = {
-            'details': forms.Textarea(attrs={'class': 'form-control-input', 'rows': '2'})
+            'details': forms.Textarea(attrs={'class': 'form-text-area', 'rows': '2'})
         }
 
     def clean_details(self):

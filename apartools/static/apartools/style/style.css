@@ -2,9 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+.btn {
+    @apply md:text-base p-2 font-semibold text-sm text-center rounded-md transition ease-in-out
+}
 
-.button-access {
-    @apply block w-auto bg-blue-600 text-white font-medium py-1 m-auto self-center mt-3 px-3 rounded-md shadow-xl;
+.primary-btn {
+    @apply border-2 border-sky-800 bg-sky-800 text-white box-border
+}
+.primary-btn:focus {
+    @apply border-2 border-sky-800 bg-white text-sky-800
 }
 
 .span-description {

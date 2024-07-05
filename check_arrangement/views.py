@@ -44,16 +44,18 @@ def index(request):
 def add_issue(request, apartment_id):
     apartment = get_object_or_404(Apartment, id=apartment_id)
     if request.method == 'POST':
-        form = IssuesForm(request.POST, apartment=apartment)
+        form = IssuesForm(request.POST, apartment=apartment,)
+        rendered_form = form.render("check_arrangement/forms/form_snippet.html")
         if form.is_valid():
             form.instance.apartment = apartment
             form.save()
             return redirect(f"{reverse('check_arrangement:add_issue', kwargs={'apartment_id': apartment.id})}?success=1")
     else:
-        form = IssuesForm(apartment=apartment)
+        form = IssuesForm(apartment=apartment, label_suffix='')
+        rendered_form = form.render("check_arrangement/forms/form_snippet.html")
     context = {
         'apartment': apartment,
-        'form': form
+        'form': rendered_form
     }
 
     return render(request, 'check_arrangement/add_issue.html', context)
@@ -64,41 +66,24 @@ def add_issue(request, apartment_id):
 def sheets(request, apartment_id):
     apartment = get_object_or_404(Apartment, id=apartment_id)
     sheets = ApartmentSheets.objects.filter(apartment_id=apartment_id)
+    sheets_not_handled = ApartmentSheets.objects.filter(apartment_id=apartment_id, status='NOT_HANDLED')
     sheets_handled = ApartmentSheets.objects.filter(apartment_id=apartment_id, status='HANDLED')
     sheets_delivery = ApartmentSheets.objects.filter(apartment_id=apartment_id, status='DELIVERY')
     sheets_unavailable = ApartmentSheets.objects.filter(apartment_id=apartment_id, status='NOT_AVAILABLE')
 
-    # statuses_to_form = ['NOT_HANDLED', 'NOT_AVAILABLE']
-    # apartment_sheets = ApartmentSheets.objects.filter(apartment_id=apartment_id,
-    #                                                   status__in=statuses_to_form)
-    # apartment_sheets_handled = ApartmentSheets.objects.filter(apartment_id=apartment_id,
-    #                                                           status='HANDLED')
-    # apartment_sheets_delivery = ApartmentSheets.objects.filter(apartment_id=apartment_id,
-    #                                                            status='DELIVERY')
-    #
-    # if request.method == "POST":
-    #     for sheet in apartment_sheets:
-    #         form = SheetForm(request.POST, instance=sheet, prefix=str(sheet.id))
-    #         if form.is_valid():
-    #             form.save()
-    #     return redirect('check_arrangement:sheets', apartment_id=apartment_id)
-    #
-    # forms = [SheetForm(instance=sheet, prefix=str(sheet.id)) for sheet in apartment_sheets]
-    #
-    # context = {
-    #     'apartment': apartment,
-    #     'apartment_sheets': apartment_sheets,
-    #     'apartment_sheets_handled': apartment_sheets_handled,
-    #     'apartment_sheets_delivery': apartment_sheets_delivery,
-    #     'forms': forms
-    # }
+    all_sheets_handled = False
 
+    if not sheets_not_handled:
+        all_sheets_handled = True
+
+    print(all_sheets_handled)
     context = {
      'apartment': apartment,
      'sheets':  sheets,
      'sheets_handled': sheets_handled,
      'sheets_delivery': sheets_delivery,
-     'sheets_unavailable': sheets_unavailable
+     'sheets_unavailable': sheets_unavailable,
+     'all_sheets_handled': all_sheets_handled
     }
 
     return render(request, 'check_arrangement/sheets.html', context)

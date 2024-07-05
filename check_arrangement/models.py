@@ -112,5 +112,5 @@ class ApartmentIssues(models.Model):
     apartment = models.ForeignKey(Apartment, on_delete=models.CASCADE)
     room = models.CharField(max_length=24, verbose_name='pièce')
     incident_type = models.TextField(verbose_name='Type d\'incident')
-    details = models.TextField(verbose_name='details')
+    details = models.TextField(verbose_name='Informations complémentaires')
 
