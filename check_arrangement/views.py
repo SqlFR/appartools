@@ -76,7 +76,6 @@ def sheets(request, apartment_id):
     if not sheets_not_handled:
         all_sheets_handled = True
 
-    print(all_sheets_handled)
     context = {
      'apartment': apartment,
      'sheets':  sheets,
@@ -87,6 +86,12 @@ def sheets(request, apartment_id):
     }
 
     return render(request, 'check_arrangement/sheets.html', context)
+
+
+def to_delivery(request, apartment_id):
+    sheets_handled = ApartmentSheets.objects.filter(apartment_id=apartment_id, status='HANDLED')
+    sheets_handled.update(status='DELIVERY')
+    return redirect('check_arrangement:sheets', apartment_id=apartment_id)
 
 
 def delivery(request, sheet_id):
@@ -110,10 +115,7 @@ def unavailable(request, sheet_id):
     return redirect('check_arrangement:sheets', apartment_id=apartment_id)
 
 
-def to_delivery(request, apartment_id):
-    sheets_handled = ApartmentSheets.objects.filter(apartment_id=apartment_id, status='HANDLED')
-    sheets_handled.update(status='DELIVERY')
-    return redirect('check_arrangement:sheets', apartment_id=apartment_id)
+
 
 
 def update_to_not_handled(request, apartment_sheet_handled_id):
