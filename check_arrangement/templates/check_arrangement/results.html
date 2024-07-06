@@ -41,12 +41,12 @@
         </tr>
       </thead>
       {% for room, issues in apartment_issues_dict.items %}
-      {% for incident_type, details_list in issues.items %}
+      {% for issue, details_list in issues.items %}
       {% for detail, issue_id in details_list %}
       <tbody>
         <tr>
           <th class="md:px-4 md:py-2 p-1 text-left border-t">{{ room }}</th>
-          <td class="md:px-4 md:py-2 p-1 border-t">{{ incident_type }}</td>
+          <td class="md:px-4 md:py-2 p-1 border-t">{{ issue }}</td>
           <td class="md:px-4 md:py-2 p-1 border-t">{{ detail }}</td>
           <td class="md:px-4 md:py-2 p-1 text-center border-t"><a href="{% url 'check_arrangement:delete_issue' issue_id %}" title="Supprimer l'incident">❌</a></td>
         </tr>
