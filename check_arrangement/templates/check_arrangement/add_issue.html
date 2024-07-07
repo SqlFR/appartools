@@ -20,7 +20,7 @@
                     <li class="card-label">{{ apartment.bedroom }} chambre{{ apartment.bedroom|pluralize }}</li>
                     <li class="card-label">{{ apartment.bathroom }} salle{{ apartment.bathroom|pluralize }} de bain</li>
                 </ul>
-                <p class="text-base font-normal text-xs">Ajouté le {{ apartment.created_at|date:'d F Y à H:i' }}</p>
+                <p class="font-normal text-xs">Ajouté le {{ apartment.created_at|date:'d F Y à H:i' }}</p>
             </div>
             <div class="card-head-apart-col-btn">
                 <a class="btn secondary-btn" href="{% url 'check_arrangement:results' apartment.id %}">Fiche appart</a>
@@ -35,7 +35,6 @@
             </div>
         </form>
     <div id="add-issue-modal-success" class="modal-success-issue">Incident Ajoutée !</div>
-    </div>
     </div>
 </body>
 </html>
