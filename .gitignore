@@ -7,3 +7,4 @@ package-lock.json
 todo.txt
 db.sqlite3
 fixtures.json
+/check_arrangement/migrations

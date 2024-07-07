@@ -8,13 +8,34 @@
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="{% static 'check_arrangement/style/style_output.css' %}">
     <script src="{% static 'check_arrangement/js/modal.js' %}" defer></script>
+    <script src="{% static 'check_arrangement/js/btn.js' %}" defer></script>
 </head>
 <body class="h-full bg-gray-50 text-gray-800">
     <a href="{% url 'index' %}" class="breadcrumb">Les outils</a>
     <div class="max-w-xl mx-auto p-4 flex flex-col items-center">
         <p class="text-2xl font-semibold mb-8 text-center">{{ app.verbose_name }}</p>
-         <a href="{% url 'check_arrangement:add_apartment' %}"
-           id="btn-add" class="btn-add mt-20">Ajouter un appartement</a>
+        <form class='container mb-8' method="POST">
+            <div class="flex justify-between items-center">
+                <h2 class="pl-4 pb-4 text-lg font-medium w-fit">Ajouter appartement</h2>
+                <div id="box-arrow-form-add-apart" class="box-arrow">
+                    <div class="contain-lines">
+                        <div class="line"></div>
+                        <div class="line"></div>
+                    </div>
+                </div>
+            </div>
+            <hr class="w-full col-span-full">
+            <div id='form-add-apart' class="grid grid-cols-9 col-span-full toggle-content">
+                {% csrf_token %}
+                {% for field in form %}
+                    {% include "check_arrangement/snippets/form_add_apart_snippet.html" with field=field %}
+                {% endfor %}
+                <button type="submit" class="btn primary-btn mt-4 col-start-4 col-end-7" title="Ajouter appartement">Valider</button>
+            </div>
+
+
+        </form>
+
         <div class="flex w-full flex-wrap gap-4">
             {% if list_apartment %}
             {% for apartment in list_apartment %}

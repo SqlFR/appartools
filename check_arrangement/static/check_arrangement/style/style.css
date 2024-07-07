@@ -47,7 +47,7 @@ body {
 }
 
 .card-apart-name {
-    @apply text-xl font-semibold mb-2 col-span-9
+    @apply text-xl font-semibold mb-2 col-span-full
 }
 
 .card-label {
@@ -77,6 +77,9 @@ body {
 
 /* index */
 
+.form-add-apart {
+    @apply grid grid-cols-9 w-full
+}
 
 /* add_issue.html */
 
@@ -84,14 +87,14 @@ body {
     @apply md:max-w-xl md:px-6 md:py-4 w-full p-2 border rounded-md overflow-hidden bg-white
 }
 
-.input-inline-form {
+.input-inline-form-add-issue {
     @apply flex justify-between mb-4
 }
-.input-inline-form > label {
+.input-inline-form-add-issue > label {
     @apply w-1/3
 }
 
-.input-inline-form > select {
+.input-inline-form-add-issue > select {
     @apply w-1/2 bg-gray-300
 }
 
@@ -101,8 +104,15 @@ body {
 
 /* add_apartment.html */
 
+.input-inline-form-add-apart {
+    @apply col-span-full pt-2
+}
+
+.form-control-input{
+    @apply border-b-2 border-sky-800 w-1/2
+}
 .form-control-input:focus {
-    @apply border-cyan-600 outline-none
+    @apply outline-none
 }
 
 .number-input {
@@ -177,3 +187,65 @@ body {
     cursor: pointer;
 }
 
+/* Afficher / Masquer */
+
+.toggle-content {
+    display: none;
+}
+
+.show-form-add-apart {
+    display: grid;
+}
+
+.box-arrow {
+    height: 20px;
+    width: 20px;
+    border: none;
+    cursor: pointer;
+    display: inline;
+    position: relative;
+}
+
+.contain-lines {
+    height: 18px;
+    width: 18px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+}
+
+.line {
+    position: absolute;
+    border-radius: 10px;
+    width: 15px;
+    height: 2px;
+    background: black;
+    top: 8px;
+}
+
+.box-arrow .line:nth-child(1) {
+    rotate: 45deg;
+    translate: calc(-25% - 1px);
+    transition:
+    transform 0.3s ease-out;
+}
+
+.box-arrow .line:nth-child(2) {
+    rotate: -45deg;
+    translate: calc(25% + 1px);
+    transition:
+    transform 0.3s ease-out;
+}
+
+.box-arrow.active .line:nth-child(1) {
+    transform: rotate(-90deg);
+    transition:
+    transform 0.3s ease-out;
+}
+
+.box-arrow.active .line:nth-child(2) {
+    transform: rotate(90deg);
+    transition:
+    transform 0.3s ease-out;
+}

@@ -8,14 +8,14 @@ def add_issue(request, apartment_id):
     apartment = get_object_or_404(Apartment, id=apartment_id)
     if request.method == 'POST':
         form = IssueForm(request.POST, apartment=apartment,)
-        rendered_form = form.render("check_arrangement/forms/form_snippet.html")
+        rendered_form = form.render("check_arrangement/snippets/form_add_issue_snippet.html")
         if form.is_valid():
             form.instance.apartment = apartment
             form.save()
             return redirect(f"{reverse('check_arrangement:add_issue', kwargs={'apartment_id': apartment.id})}?success=1")
     else:
         form = IssueForm(apartment=apartment, label_suffix='')
-        rendered_form = form.render("check_arrangement/forms/form_snippet.html")
+        rendered_form = form.render("check_arrangement/snippets/form_add_issue_snippet.html")
     context = {
         'apartment': apartment,
         'form': rendered_form
