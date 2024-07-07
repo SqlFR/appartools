@@ -1,9 +1,11 @@
 from django.shortcuts import get_object_or_404, redirect, render, reverse
+from django_ratelimit.decorators import ratelimit
 
 from check_arrangement.models import Apartment, ApartmentIssue
 from check_arrangement.forms import IssueForm
 
 
+@ratelimit(key='ip')
 def add_issue(request, apartment_id):
     apartment = get_object_or_404(Apartment, id=apartment_id)
     if request.method == 'POST':
