@@ -7,7 +7,7 @@
     <title>{{ apartment.name }} - Ajouter incident</title>
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="{% static 'check_arrangement/style/style_output.css' %}">
-    <script src="{% static 'check_arrangement/js/forms.js' %}" defer></script>
+    <script src="{% static 'check_arrangement/js/add_issue.js' %}" defer></script>
 </head>
 <body>
     <a href="{% url 'index' %}" class="breadcrumb">Liste des outils</a>
@@ -31,7 +31,7 @@
         {% csrf_token %}
             {{ form }}
             <div class="w-full flex justify-center mt-6">
-                <button class="btn primary-btn" type="submit" title="Ajouter incident">Ajouter incident</button>
+                <button onclick="disabledButtonAfterClick()" id="btn-add-issue" class="btn primary-btn" type="submit" title="Ajouter incident">Ajouter incident</button>
             </div>
         </form>
     <div id="add-issue-modal-success" class="modal-success-issue">Incident Ajoutée !</div>

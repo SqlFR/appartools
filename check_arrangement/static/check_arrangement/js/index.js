@@ -1,3 +1,4 @@
+// Bouton formulaire Ajouter appartement
 const boxArrowFormAddApart = document.getElementById('box-arrow-form-add-apart');
 
 boxArrowFormAddApart.addEventListener('click', () => {
@@ -6,10 +7,3 @@ boxArrowFormAddApart.addEventListener('click', () => {
     formAddApart.classList.toggle('show-form-add-apart')
 })
 
-// const boxesArrow = document.querySelectorAll('.box-arrow');
-//
-// boxesArrow.forEach(box => {
-//     box.addEventListener('click', e => {
-//         e.target.classList.toggle('active');
-//     })
-// })
