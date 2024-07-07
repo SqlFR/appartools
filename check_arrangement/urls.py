@@ -7,7 +7,7 @@ urlpatterns = [
     path('', views.index, name='index'),
 
     # Aparts
-    path('add_apartment/', views.add_apartment, name='add_apartment'),
+    path('add_apartment/', views.index, name='add_apartment'),
     path('delete_apartment/<int:apartment_id>', views.delete_apartment, name='delete_apartment'),
 
     # Issues
