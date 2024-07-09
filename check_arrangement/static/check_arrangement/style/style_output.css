@@ -929,6 +929,10 @@ body {
   line-height: 2rem;
 }
 
+.disable-link {
+  pointer-events: none;
+}
+
 /* Cartes d'en tête */
 
 .card-head-apart {

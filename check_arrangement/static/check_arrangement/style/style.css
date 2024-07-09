@@ -22,6 +22,10 @@ body {
 .title-category {
     @apply text-2xl my-6 text-center
 }
+
+.disable-link {
+    pointer-events: none;
+}
 /* Cartes d'en tête */
 
 .card-head-apart {
