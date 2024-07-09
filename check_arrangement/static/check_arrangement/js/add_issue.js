@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", function() {
 })
 
 // Désactive bouton après le clic
-
 function disabledButtonAfterClick() {
     const btnAddIssue = document.getElementById('btn-add-issue');
     setTimeout(() => {

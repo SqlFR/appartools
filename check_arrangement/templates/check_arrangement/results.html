@@ -7,6 +7,7 @@
   <title>{{ apartment.name }}</title>
   <meta name="viewport" content="width=device-width">
   <link rel="stylesheet" href="{% static 'check_arrangement/style/style_output.css' %}">
+  <script src="{% static 'check_arrangement/js/app.js' %}" defer></script>
 </head>
 <body>
   <a href="{% url 'index' %}" class="breadcrumb">Les outils</a>
@@ -48,7 +49,8 @@
           <th class="md:px-4 md:py-2 p-1 text-left border-t">{{ room }}</th>
           <td class="md:px-4 md:py-2 p-1 border-t">{{ issue }}</td>
           <td class="md:px-4 md:py-2 p-1 border-t">{{ detail }}</td>
-          <td class="md:px-4 md:py-2 p-1 text-center border-t"><a href="{% url 'check_arrangement:delete_issue' issue_id %}" title="Supprimer l'incident">❌</a></td>
+          <td class="md:px-4 md:py-2 p-1 text-center border-t">
+            <a class='btn-delete' href="{% url 'check_arrangement:delete_issue' issue_id %}" title="Supprimer l'incident">❌</a></td>
         </tr>
       </tbody>
       {% endfor %}
@@ -91,7 +93,5 @@
       </div>
     </div>
   </div>
-
-
 </body>
 </html>
