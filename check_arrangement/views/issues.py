@@ -9,7 +9,7 @@ from check_arrangement.forms import IssueForm
 def add_issue(request, apartment_id):
     apartment = get_object_or_404(Apartment, id=apartment_id)
     if request.method == 'POST':
-        form = IssueForm(request.POST, apartment=apartment,)
+        form = IssueForm(request.POST, apartment=apartment)
         rendered_form = form.render("check_arrangement/snippets/form_add_issue_snippet.html")
         if form.is_valid():
             form.instance.apartment = apartment

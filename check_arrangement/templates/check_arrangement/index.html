@@ -7,7 +7,6 @@
     <title>Liste apparts</title>
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="{% static 'check_arrangement/style/style_output.css' %}">
-    <script src="{% static 'check_arrangement/js/modal.js' %}" defer></script>
     <script src="{% static 'check_arrangement/js/index.js' %}" defer></script>
 </head>
 <body class="h-full bg-gray-50 text-gray-800">
@@ -30,10 +29,8 @@
                 {% for field in form %}
                     {% include "check_arrangement/snippets/form_add_apart_snippet.html" with field=field %}
                 {% endfor %}
-                <button type="submit" class="btn primary-btn mt-4 col-start-4 col-end-7" title="Ajouter appartement">Valider</button>
+                <button id='btn-form-add-apart' type="submit" class="btn primary-btn mt-4 col-start-4 col-end-7" title="Ajouter appartement">Valider</button>
             </div>
-
-
         </form>
 
         <div class="flex w-full flex-wrap gap-4">
@@ -59,30 +56,16 @@
             </div>
             {% endfor %}
             {% else %}
-            <p class="mt-10">Aucun appartement enregistré pour le moment...</p>
+            <p class="container">Aucun appartement en base de donnée pour le moment...</p>
         {% endif %}
-        <div id="addModal" class="modal" style="display: none;">
-            <div class="modal-content max-w-xl">
-                <span class="close-add">&times;</span>
-
-                <div class="flex justify-around mt-4">
-                    <button id="confirmAdd" class="text-red-600 font-medium w-1/2">Ajouter</button>
-                </div>
-            </div>
         </div>
-        <div id="deleteModal" class="modal" style="display: none;">
-            <div class="modal-content max-w-xl">
-                <span class="close-delete">&times;</span>
-                <p class="pt-4 sm:pt-0">Êtes-vous sûr de vouloir supprimer cet appartement ?</p>
-                <div class="flex justify-around mt-4">
-                    <button id="confirmDelete" class="text-red-600 font-medium w-1/2">Oui</button>
-                    <button id="cancelDelete" class="w-1/2 font-medium">Non</button>
-                </div>
-            </div>
+        <div class="container">
+            <form>
+                {% csrf_token %}
+                {{ form_contact }}
+                <button type="submit">Envoyer</button>
+            </form>
         </div>
         </div>
-        </div>
-
-
 </body>
 </html>
