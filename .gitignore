@@ -1,4 +1,4 @@
-/.env/
+.env
 secret_key.txt
 apartools/settings.py
 **/__pycache__/
