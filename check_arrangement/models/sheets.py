@@ -6,7 +6,7 @@ from check_arrangement.models import Apartment
 class Sheet(models.Model):
     ROOM_CHOICES = (
         ('KITCHEN', 'Cuisine'),
-        ('BEDROOM', 'Chambre'),
+        ('BEDROOMS', 'Chambres'),
         ('BATHROOM', 'Salle de bain'),
         ('COMMON', 'Espaces communs')
     )
