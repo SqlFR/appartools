@@ -13,6 +13,7 @@ urlpatterns = [
     # Issues
     path('delete_issue/<int:apartmentissue_id>/', views.delete_issue, name='delete_issue'),
     path('add_issue/<int:apartment_id>/', views.add_issue, name="add_issue"),
+    path('edit_issue/<int:apartmentissue_id>/', views.edit_issue, name='edit_issue'),
 
     # Sheets
     path('sheets/<int:apartment_id>/', views.sheets, name='sheets'),

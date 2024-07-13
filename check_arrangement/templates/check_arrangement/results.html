@@ -50,6 +50,7 @@
           <td class="md:px-4 md:py-2 p-1 border-t ">{{ detail }}</td>
           <td class="md:px-4 md:py-2 p-1 text-center md:text-left border-t">
             <a class='btn-delete' href="{% url 'check_arrangement:delete_issue' issue_id %}" title="Supprimer l'incident">❌</a>
+            <a class='btn-edit' href="{% url 'check_arrangement:edit_issue' issue_id %}" title="Modifier l'incident">Edit</a>
           </td>
         </tr>
       </tbody>

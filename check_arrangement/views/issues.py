@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django_ratelimit.decorators import ratelimit
 
 from check_arrangement.models import Apartment, ApartmentIssue
-from check_arrangement.forms import IssueForm
+from check_arrangement.forms import IssueForm, EditIssueForm
 
 
 @ratelimit(key='user_or_ip', rate='10/s')
@@ -31,3 +31,18 @@ def delete_issue(request, apartmentissue_id):
     issue = get_object_or_404(ApartmentIssue, id=apartmentissue_id)
     issue.delete()
     return render('check_arrangement/results.html', apartment_id=issue.apartment.id)
+
+
+def edit_issue(request, apartmentissue_id):
+    issue = get_object_or_404(ApartmentIssue, id=apartmentissue_id)
+    apartment = get_object_or_404(Apartment, id=issue.apartment.id)
+
+    if request.method == 'POST':
+        form = EditIssueForm(request.POST, instance=issue, apartment=apartment)
+        if form.is_valid():
+            form.save()
+            return redirect('check_arrangement:results', apartment_id=apartment.id)
+    else:
+        form = EditIssueForm(instance=issue, apartment=apartment, issue_choice_user=issue.issue)
+
+    return render(request, 'check_arrangement/edit_issue.html', {'form': form, 'issue': issue, 'apartment': apartment})
