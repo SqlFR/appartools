@@ -34,36 +34,43 @@ def sheets(request, apartment_id):
 def to_delivery(request, apartment_id):
     sheets_handled = ApartmentSheet.objects.filter(apartment_id=apartment_id, status='HANDLED')
     sheets_handled.update(status='DELIVERY')
-    return render('check_arrangement/sheets.html', apartment_id=apartment_id)
+    return sheets(request, apartment_id)
 
 
 @ratelimit(key='ip', rate='1/s')
 def delivery(request, sheet_id):
-    sheet = ApartmentSheet.objects.filter(id=sheet_id)
-    apartment_id = sheet.values()[0]['apartment_id']
-    sheet.update(status='DELIVERY')
-    return render('check_arrangement/sheets.html', apartment_id=apartment_id)
+    sheet = get_object_or_404(ApartmentSheet, id=sheet_id)
+    sheet.status = 'DELIVERY'
+    sheet.save()
+    apartment_id = sheet.apartment_id
+
+    return sheets(request, apartment_id)
 
 
 @ratelimit(key='ip', rate='1/s')
 def handled(request, sheet_id):
-    sheet = ApartmentSheet.objects.filter(id=sheet_id)
-    apartment_id = sheet.values()[0]['apartment_id']
-    sheet.update(status='HANDLED')
-    return render('check_arrangement/sheets.html', apartment_id=apartment_id)
+    sheet = get_object_or_404(ApartmentSheet, id=sheet_id)
+    sheet.status = 'HANDLED'
+    sheet.save()
+    apartment_id = sheet.apartment_id
+
+    return sheets(request, apartment_id)
 
 
 @ratelimit(key='ip', rate='1/s')
 def unavailable(request, sheet_id):
-    sheet = ApartmentSheet.objects.filter(id=sheet_id)
-    apartment_id = sheet.values()[0]['apartment_id']
-    sheet.update(status='NOT_AVAILABLE')
-    return render('check_arrangement/sheets.html', apartment_id=apartment_id)
+    sheet = get_object_or_404(ApartmentSheet, id=sheet_id)
+    sheet.status = 'NOT_AVAILABLE'
+    sheet.save()
+    apartment_id = sheet.apartment_id
+
+    return sheets(request, apartment_id)
 
 
 @ratelimit(key='ip', rate='1/s')
 def update_to_not_handled(request, apartment_sheet_handled_id):
-    apartment_sheet_handled = ApartmentSheet.objects.filter(id=apartment_sheet_handled_id)
-    apartment_id = apartment_sheet_handled.values()[0]['apartment_id']  # Recup l'id de l'appart
-    apartment_sheet_handled.update(status='NOT_HANDLED')
-    return render('check_arrangement/sheets.html', apartment_id=apartment_id)
+    sheet = get_object_or_404(ApartmentSheet, id=apartment_sheet_handled_id)
+    sheet.status = 'NOT_HANDLED'
+    sheet.save()
+    apartment_id = sheet.apartment_id
+    return sheets(request, apartment_id)

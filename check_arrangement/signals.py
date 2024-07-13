@@ -19,6 +19,7 @@ def add_default_issue(sender, **kwargs):
         for issue in default_issue:
             Issue.objects.get_or_create(name=issue)
 
+
 # Ajoute les accessoires
 @receiver(post_migrate)
 def add_sheets(sender, **kwargs):

@@ -1,5 +1,5 @@
 from django.db import models
-
+from enum import Enum
 from check_arrangement.models import Apartment
 
 
