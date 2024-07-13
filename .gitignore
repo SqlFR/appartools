@@ -8,3 +8,6 @@ todo.txt
 db.sqlite3
 fixtures.json
 /check_arrangement/migrations
+/check_arrangement/static/check_arrangement/style/style_output.css
+/check_arrangement/static/check_arrangement/style/style.css
+bfg-1.14.0.jar
