@@ -30,4 +30,4 @@ def add_issue(request, apartment_id):
 def delete_issue(request, apartmentissue_id):
     issue = get_object_or_404(ApartmentIssue, id=apartmentissue_id)
     issue.delete()
-    return redirect('check_arrangement:results', apartment_id=issue.apartment.id)
+    return render('check_arrangement/results.html', apartment_id=issue.apartment.id)

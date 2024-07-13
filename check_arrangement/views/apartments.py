@@ -6,4 +6,4 @@ from check_arrangement.models import Apartment
 def delete_apartment(request, apartment_id):
     apartment = Apartment.objects.get(id=apartment_id)
     apartment.delete()
-    return redirect('check_arrangement:index')
+    return render('check_arrangement/index.html')
