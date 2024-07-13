@@ -5,11 +5,11 @@ from check_arrangement.models import Apartment, ApartmentIssue
 from check_arrangement.forms import IssueForm
 
 
-@ratelimit(key='ip')
+@ratelimit(key='user_or_ip', rate='10/s')
 def add_issue(request, apartment_id):
     apartment = get_object_or_404(Apartment, id=apartment_id)
     if request.method == 'POST':
-        form = IssueForm(request.POST, apartment=apartment,)
+        form = IssueForm(request.POST, apartment=apartment)
         rendered_form = form.render("check_arrangement/snippets/form_add_issue_snippet.html")
         if form.is_valid():
             form.instance.apartment = apartment
@@ -26,6 +26,7 @@ def add_issue(request, apartment_id):
     return render(request, 'check_arrangement/add_issue.html', context)
 
 
+@ratelimit(key='user_or_ip', rate='1/s')
 def delete_issue(request, apartmentissue_id):
     issue = get_object_or_404(ApartmentIssue, id=apartmentissue_id)
     issue.delete()
