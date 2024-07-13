@@ -8,5 +8,9 @@ todo.txt
 db.sqlite3
 fixtures.json
 /check_arrangement/migrations
-bfg-1.14.0.jar
+apartools.git/bfg-1.14.0.jar
+apartools.git
+apartools.git.bfg-report
+appartools.git.bfg-report
 appartools.git
+bfg-1.14.0.jar
