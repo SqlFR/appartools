@@ -9,3 +9,5 @@ db.sqlite3
 fixtures.json
 /check_arrangement/migrations
 bfg-1.14.0.jar
+/check_arrangement/static/check_arrangement/style/style_output.css
+/check_arrangement/static/check_arrangement/style/style.css
