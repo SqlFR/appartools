@@ -29,7 +29,7 @@
                 {% for field in form %}
                     {% include "check_arrangement/snippets/form_add_apart_snippet.html" with field=field %}
                 {% endfor %}
-                <button id='btn-form-add-apart' type="submit" class="btn primary-btn mt-4 col-start-4 col-end-7" title="Ajouter appartement">Valider</button>
+                <button id='btn-form-add-apart' type="submit" name='add_apart_submit' class="btn primary-btn mt-4 col-start-4 col-end-7" title="Ajouter appartement">Valider</button>
             </div>
         </form>
 
@@ -51,7 +51,7 @@
                     <a class="btn secondary-btn"
                         href="{% url 'check_arrangement:sheets' apartment.id %}">Les accessoires</a>
                 </div>
-                <a class="btn primary-btn card-apart-row-bottom" href="{% url 'check_arrangement:results' apartment.id %}">Fiche appart</a>
+                <a class="btn primary-btn card-apart-row-bottom" href="{% url 'check_arrangement:summary_apart' apartment.slug %}">Fiche appart</a>
 
             </div>
             {% endfor %}
@@ -60,10 +60,10 @@
         {% endif %}
         </div>
         <div class="container">
-            <form>
+            <form method="POST">
                 {% csrf_token %}
                 {{ form_contact }}
-                <button type="submit">Envoyer</button>
+                <button type="submit" name="contact_submit">Envoyer</button>
             </form>
         </div>
         </div>

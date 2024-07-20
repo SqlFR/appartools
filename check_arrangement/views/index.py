@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.apps import apps
+from django.conf import settings
 from django.core.mail import send_mail
 
 from check_arrangement.models import Apartment
@@ -11,22 +12,22 @@ def index(request):
     app = apps.get_app_config('check_arrangement')
 
     if request.method == 'POST':
-        form = ApartmentForm(request.POST)
-        if form.is_valid():
+        form = ApartmentForm(request.POST, prefix='add_apart')
+        form_contact = ContactForm(request.POST, prefix='contact')
+        if 'add_apart_submit' in request.POST and form.is_valid():
             form.save()
             return redirect('check_arrangement:index')
+        if 'contact_submit' in request.POST and form_contact.is_valid():
+            name = form_contact.cleaned_data['name']
+            subject = f'Message provenant de {name}'
+            message = form_contact.cleaned_data['message']
+            from_email = 'contact@apartools.com'
+            recipient_list = ['florian.lazzarini@gmail.com']
 
-        form_contact = ContactForm(request.POST)
-        if form_contact.is_valid():
-            name = form.cleaned_data['name']
-            message = form.cleaned_data['message']
-
-            send_mail(
-                subject=f'Message provenant de {name}',
-                message=message,
-                from_email=None,
-                recipient_list=['florian.lazzarini@gmail.com']
-            )
+            print('Formulaire validé')
+            send_mail(subject, message, from_email, recipient_list)
+        else:
+            print('Formulaire non validé')
 
     else:
         form = ApartmentForm(label_suffix='')

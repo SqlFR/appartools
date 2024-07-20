@@ -16,6 +16,7 @@ class Apartment(models.Model):
     name = models.CharField(max_length=32, unique=True, error_messages={
         'unique': 'Un appartement portant ce nom éxiste déjà.'
     }, verbose_name='Nom')
+    slug = models.SlugField(max_length=128)
     created_at = models.DateTimeField(auto_now_add=True)
     bedroom = models.PositiveSmallIntegerField(default=1,
                                                validators=[

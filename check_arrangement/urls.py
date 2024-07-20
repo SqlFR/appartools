@@ -11,7 +11,7 @@ urlpatterns = [
     path('delete_apartment/<int:apartment_id>', views.delete_apartment, name='delete_apartment'),
 
     # Issues
-    path('delete_issue/<int:apartmentissue_id>/', views.delete_issue, name='delete_issue'),
+    path('<int:apartmentissue_id>/delete_issue/', views.delete_issue, name='delete_issue'),
     path('add_issue/<int:apartment_id>/', views.add_issue, name="add_issue"),
     path('edit_issue/<int:apartmentissue_id>/', views.edit_issue, name='edit_issue'),
 
@@ -24,5 +24,5 @@ urlpatterns = [
     path('sheets/update_to_not_handled/<int:apartment_sheet_handled_id>/', views.update_to_not_handled, name='update_to_not_handled'),
 
     # Results
-    path('<int:apartment_id>/results/', views.results, name="results"),
+    path('apartment/<str:slug>/', views.summary_apart, name="summary_apart"),
 ]
